@@ -1,5 +1,12 @@
 <?php
-// Author: Kaelan Grainger (2026)
+/*
+Plugin Name: My GF OAuth Test
+Description: Testing env variables + OAuth helper
+Version: 1.0
+Author: Kaelan Grainger
+*/
+
+// ^^^ Btw, wordpress won't load it if this comment doesn't exist
 
 // Include the helper library as recommended by Gravityforms Doc
 // Use helper to get oAuth authentication parameters in URL.
@@ -22,7 +29,9 @@ $base_url = getenv('BASE_URL');
 
 // Test Function
 add_shortcode('env_test', function () {
-    return 'Consumer Key: ' . getenv('CONSUMER_KEY');
+    return 'ENV via getenv: ' . getenv('CONSUMER_KEY')
+        . '<br>ENV via $_ENV: ' . ($_ENV['CONSUMER_KEY'] ?? 'not set')
+        . '<br>ENV via $_SERVER: ' . ($_SERVER['CONSUMER_KEY'] ?? 'not set');
 });
 
 
