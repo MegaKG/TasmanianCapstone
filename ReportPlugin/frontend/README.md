@@ -2,7 +2,7 @@
 
 ## Overview
 
-This implementation contains the frontend prototype for the Individual Participant Report workflow.
+This implementation contains the frontend prototype for the Individual Participant Report workflow. This iteration uses HTML, CSS and JavaScript and is developed independently of the WordPress plugin environment. WordPress compatibility will be addressed when the frontend and backend/report-generation components are integrated.
 
 The frontend demonstrates the user interface and interactions required to configure a participant report. Where backend data or report-generation functionality is not yet available, mock data and representative states are used.
 
