@@ -47,7 +47,7 @@ function get_gravity_forms_list() {
     $consumer_secret = $_ENV['CONSUMER_SECRET'];
     $base_url = $_ENV['BASE_URL'];
 
-    $url    = $base_url . '/wp-json/gf/v2/forms';
+    $url    = $base_url . '/forms';
     $method = 'GET';
 
     $oauth = new OAuth_Request(
@@ -95,7 +95,7 @@ function get_form_question_map( $form_id ) {
     $consumer_secret = $_ENV['CONSUMER_SECRET'];
     $base_url = $_ENV['BASE_URL'];
 
-    $url    =  $base_url . '/wp-json/gf/v2/forms/' . $form_id ;
+    $url    =  $base_url . '/forms/' . $form_id ;
     $method = 'GET';
     $oauth = new OAuth_Request(
        $url,
@@ -198,7 +198,7 @@ function get_form_entries( $form_id ) {
 
     $field_map = get_form_question_map( $form_id );
 
-    $url    = $base_url . '/wp-json/gf/v2/forms/' . $form_id . '/entries';
+    $url    = $base_url . '/forms/' . $form_id . '/entries';
     $method = 'GET';
 
     $oauth = new OAuth_Request(
