@@ -21,17 +21,20 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 // Read the keys from the .env file
-$consumer_key = $_ENV['CONSUMER_KEY'];
-$consumer_secret = $_ENV['CONSUMER_SECRET'];
-$base_url = $_ENV['BASE_URL'];
+
 
 // Create a new instance of the class
 
 // Test Function
 add_shortcode('env_test', function () {
-    return 'ENV via getenv: ' . getenv('CONSUMER_KEY')
-        . '<br>ENV via $_ENV: ' . ($_ENV['CONSUMER_KEY'] ?? 'not set')
-        . '<br>ENV via $_SERVER: ' . ($_SERVER['CONSUMER_KEY'] ?? 'not set');
+    // Test the query
+    error_log(print_r(get_gravity_forms_list(), true));
+
+    $consumer_key = $_ENV['CONSUMER_KEY'];
+    $consumer_secret = $_ENV['CONSUMER_SECRET'];
+    $base_url = $_ENV['BASE_URL'];
+
+    return '<br>Key: ' . $consumer_key . '<br>Secret: ' . $consumer_secret . '<br>Base URL: ' . $base_url;
 });
 
 /**
@@ -40,13 +43,17 @@ add_shortcode('env_test', function () {
  * @return array
  */
 function get_gravity_forms_list() {
+    $consumer_key = $_ENV['CONSUMER_KEY'];
+    $consumer_secret = $_ENV['CONSUMER_SECRET'];
+    $base_url = $_ENV['BASE_URL'];
+
     $url    = $base_url . '/wp-json/gf/v2/forms';
     $method = 'GET';
 
     $oauth = new OAuth_Request(
         $url,
-        GF_CONSUMER_KEY,
-        GF_CONSUMER_SECRET,
+        $consumer_key,
+        $consumer_secret,
         $method
     );
 
@@ -61,6 +68,7 @@ function get_gravity_forms_list() {
         is_wp_error( $response ) ||
         wp_remote_retrieve_response_code( $response ) !== 200
     ) {
+        error_log(print_r($response, true));
         return array();
     }
 
@@ -82,32 +90,35 @@ function get_gravity_forms_list() {
  * @param int $form_id
  * @return array
  */
-function get_form_questi*n_map( $form_id ) {
+function get_form_question_map( $form_id ) {
+    $consumer_key = $_ENV['CONSUMER_KEY'];
+    $consumer_secret = $_ENV['CONSUMER_SECRET'];
+    $base_url = $_ENV['BASE_URL'];
 
-    $url    =*site_url( '/wp-json/gf/v2/forms/' * $form_id );
+    $url    =  $base_url . '/wp-json/gf/v2/forms/' . $form_id ;
     $method = 'GET';
-*    $oauth = new OAuth_Request(
-  *     $url,
-        GF_CONSUMER_KEY*
-        GF_CONSUMER_SECRET,
-     *  $method
+    $oauth = new OAuth_Request(
+       $url,
+        $consumer_key,
+        $consumer_secret,
+       $method
     );
 
-    $response = *p_remote_request(
-        $oauth->*et_url(),
+    $response = wp_remote_request(
+        $oauth->get_url(),
         [
             'method' => $method,
         ]
-    );*
+    );
     if (
-        is_wp_error( $re*ponse ) ||
-        wp_remote_retri*ve_response_code( $response ) !== *00
+        is_wp_error( $response ) ||
+        wp_remote_retrieve_response_code( $response ) !== 200
     ) {
         return [];
-    *
+    }
 
     $form = json_decode(
-       *wp_remote_retrieve_body( $response*),
+        wp_remote_retrieve_body( $response ),
         true
     );
 
@@ -181,16 +192,19 @@ function get_form_questi*n_map( $form_id ) {
  * @return array
  */
 function get_form_entries( $form_id ) {
+    $consumer_key = $_ENV['CONSUMER_KEY'];
+    $consumer_secret = $_ENV['CONSUMER_SECRET'];
+    $base_url = $_ENV['BASE_URL'];
 
     $field_map = get_form_question_map( $form_id );
 
-    $url    = site_url( '/wp-json/gf/v2/forms/' . $form_id . '/entries' );
+    $url    = $base_url . '/wp-json/gf/v2/forms/' . $form_id . '/entries';
     $method = 'GET';
 
     $oauth = new OAuth_Request(
         $url,
-        GF_CONSUMER_KEY,
-        GF_CONSUMER_SECRET,
+        $consumer_key,
+        $consumer_secret,
         $method
     );
 
