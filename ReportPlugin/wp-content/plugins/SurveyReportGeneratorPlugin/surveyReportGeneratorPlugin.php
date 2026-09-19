@@ -132,9 +132,7 @@ function get_form_questi*n_map( $form_id ) {
             'choices' => [],
         ];
 
-        /*
-         * Input mappings
-         */
+        // Input mappings
         if ( ! empty( $field['inputs'] ) ) {
 
             foreach ( $field['inputs'] as $input ) {
@@ -147,9 +145,8 @@ function get_form_questi*n_map( $form_id ) {
             }
         }
 
-        /*
-         * Choice mappings
-         */
+        
+        // Choice mappings
         if ( ! empty( $field['choices'] ) && is_array( $field['choices'] ) ) {
 
             foreach ( $field['choices'] as $choice ) {
@@ -160,9 +157,7 @@ function get_form_questi*n_map( $form_id ) {
             }
         }
 
-        /*
-         * Likert survey row mappings.
-         */
+        // Likert survey row mappings.
         if ( ! empty( $field['gsurveyLikertRows'] ) ) {
 
             $question['rows'] = [];
@@ -177,6 +172,131 @@ function get_form_questi*n_map( $form_id ) {
     }
 
     return $questions;
+}
+
+/**
+ * Get simplified entry data for a form.
+ *
+ * @param int $form_id
+ * @return array
+ */
+function get_form_entries( $form_id ) {
+
+    $field_map = get_form_question_map( $form_id );
+
+    $url    = site_url( '/wp-json/gf/v2/forms/' . $form_id . '/entries' );
+    $method = 'GET';
+
+    $oauth = new OAuth_Request(
+        $url,
+        GF_CONSUMER_KEY,
+        GF_CONSUMER_SECRET,
+        $method
+    );
+
+    $response = wp_remote_request(
+        $oauth->get_url(),
+        [
+            'method' => $method,
+        ]
+    );
+
+    if (
+        is_wp_error( $response ) ||
+        wp_remote_retrieve_response_code( $response ) !== 200
+    ) {
+        return [];
+    }
+
+    $data = json_decode(
+        wp_remote_retrieve_body( $response ),
+        true
+    );
+
+    $results = [];
+
+    foreach ( $data['entries'] as $entry ) {
+
+        $answers = [];
+
+        foreach ( $field_map as $field_id => $field ) {
+
+            // Multi-input fields (Name, Survey etc.)
+            if ( ! empty( $field['inputs'] ) ) {
+
+                foreach ( $field['inputs'] as $input ) {
+
+                    $input_id = (string) $input['id'];
+
+                    if (
+                        ! isset( $entry[ $input_id ] ) ||
+                        $entry[ $input_id ] === ''
+                    ) {
+                        continue;
+                    }
+
+                    $value = $entry[ $input_id ];
+
+                    /*
+                     * Survey / Likert answers.
+                     * Example:
+                     * glikertrowb86af978:glikertcol12e671c3aa
+                     * Need to map to the actual results from likert
+                     */
+                    if ( strpos( $value, ':' ) !== false ) {
+
+                        list( $row_id, $choice_id ) = explode(
+                            ':',
+                            $value,
+                            2
+                        );
+
+                        $question_text =
+                            $field['rows'][ $row_id ]
+                            ?? $input['label'];
+
+                        $answer_text =
+                            $field['choices'][ $choice_id ]
+                            ?? $choice_id;
+
+                        $answers[ $question_text ] = $answer_text;
+
+                    } else {
+
+                        $answers[ $input['label'] ] = $value;
+                    }
+                }
+
+            } else {
+
+                $field_key = (string) $field_id;
+
+                if (
+                    ! isset( $entry[ $field_key ] ) ||
+                    $entry[ $field_key ] === ''
+                ) {
+                    continue;
+                }
+
+                $value = $entry[ $field_key ];
+
+                // Single-choice fields.
+                if ( isset( $field['choices'][ $value ] ) ) {
+                    $value = $field['choices'][ $value ];
+                }
+
+                $answers[ $field['label'] ] = $value;
+            }
+        }
+
+        $results[] = [
+            'id'           => $entry['id'],
+            'date_created' => $entry['date_created'],
+            'answers'      => $answers,
+        ];
+    }
+
+    return $results;
 }
 
 ?>
