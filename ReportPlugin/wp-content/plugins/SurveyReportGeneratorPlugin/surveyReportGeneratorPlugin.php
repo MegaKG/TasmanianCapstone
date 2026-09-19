@@ -21,9 +21,9 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 // Read the keys from the .env file
-$consumer_key = getenv('CONSUMER_KEY');
-$consumer_secret = getenv('CONSUMER_SECRET');
-$base_url = getenv('BASE_URL');
+$consumer_key = $_ENV['CONSUMER_KEY'];
+$consumer_secret = $_ENV['CONSUMER_SECRET'];
+$base_url = $_ENV['BASE_URL'];
 
 // Create a new instance of the class
 
@@ -33,6 +33,48 @@ add_shortcode('env_test', function () {
         . '<br>ENV via $_ENV: ' . ($_ENV['CONSUMER_KEY'] ?? 'not set')
         . '<br>ENV via $_SERVER: ' . ($_SERVER['CONSUMER_KEY'] ?? 'not set');
 });
+
+/**
+ * Get all Gravity Forms names and IDs.
+ *
+ * @return array
+ */
+function get_gravity_forms_list() {
+    $url    = $base_url . '/wp-json/gf/v2/forms';
+    $method = 'GET';
+
+    $oauth = new OAuth_Request(
+        $url,
+        GF_CONSUMER_KEY,
+        GF_CONSUMER_SECRET,
+        $method
+    );
+
+    $response = wp_remote_request(
+        $oauth->get_url(),
+        array(
+            'method' => $method,
+        )
+    );
+
+    if (
+        is_wp_error( $response ) ||
+        wp_remote_retrieve_response_code( $response ) !== 200
+    ) {
+        return array();
+    }
+
+    $forms = json_decode( wp_remote_retrieve_body( $response ), true );
+
+    $results = array();
+
+    foreach ( $forms as $form ) {
+        $results[ $form['id'] ] = $form['title'];
+    }
+
+    return $results;
+}
+
 
 
 
