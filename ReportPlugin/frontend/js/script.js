@@ -242,6 +242,7 @@ function updateEvaluation() {
         `Evaluation points (${evaluationNames})`;
 }
 
+// FOR BACKEND: This is where the selected participant and evaluation points would be sent to the backend for processing
 generateButton.addEventListener("click", async function () {
     const evaluations = getEvaluations();
 
@@ -270,6 +271,7 @@ generateButton.addEventListener("click", async function () {
             "success"
         );
 
+        // FOR BACKEND: Send the selected participant and evaluation points to the backend for processing
         const canvas = await html2canvas(reportPage, {
             scale: 2,
             backgroundColor: "#ffffff"
@@ -321,7 +323,7 @@ generateButton.addEventListener("click", async function () {
         pdf.save(
             `${safeName}-Individual-Participant-Report-Prototype.pdf`
         );
-
+        // FOR BACKEND: Here you would handle the response from the backend after generating the PDF
         showMessage(
             "Representative report PDF generated successfully.",
             "success"
