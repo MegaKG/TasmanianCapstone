@@ -1,5 +1,10 @@
 <?php
 
+/*
+report-handler.php
+Handles the received webform data from the plugin frontend, and performs the required processing.
+*/
+
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
