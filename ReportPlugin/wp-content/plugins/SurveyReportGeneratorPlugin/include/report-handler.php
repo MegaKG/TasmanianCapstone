@@ -46,4 +46,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
      * $excel_file           uploaded file array
      */
 
+    // Dump it to the log
+    error_log(print_r(
+        [
+            'rounded_corners' => $rounded_corners,
+            'report_mode' => $report_mode,
+            'participant' => $participant,
+            'batch_participants' => $batch_participants,
+            'evaluation_points' => $evaluation_points,
+            'benchmarks' => $benchmarks,
+            'excel_file' => $excel_file,
+            ],    
+    , true));
+
 }
