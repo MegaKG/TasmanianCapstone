@@ -4,7 +4,7 @@
 // Include the helper library as recommended by Gravityforms Doc
 // Use helper to get oAuth authentication parameters in URL.
 // Download helper library from: https://docs.gravityforms.com/wp-content/uploads/2017/01/class-oauth-request.php_.zip
-require_once( __DIR__ . 'class-oauth-request.php' );
+require_once( __DIR__ . '/class-oauth-request.php' );
 
 
 /**
