@@ -1204,3 +1204,107 @@ summary {
         font-size: 13px;
     }
 }
+
+.plugin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 20px 32px;
+}
+
+.plugin-logo {
+    display: flex;
+    align-items: center;
+}
+
+.plugin-logo img {
+    display: block;
+}
+
+.header-settings {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.header-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.header-toggle input {
+    cursor: pointer;
+}
+
+/* Default rounded interface */
+.dropdown summary,
+.dropdown-menu,
+.file-input,
+.file-input::file-selector-button,
+#generate-report-button,
+.participant-inline-editor {
+    border-radius: 24px;
+}
+
+/* Turn rounded corners OFF */
+body.square-ui .dropdown summary,
+body.square-ui .dropdown-menu,
+body.square-ui .file-input,
+body.square-ui .file-input::file-selector-button,
+body.square-ui #generate-report-button,
+body.square-ui .participant-inline-editor {
+    border-radius: 0;
+}
+
+.plugin-header {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.plugin-header .plugin-logo {
+    margin: 0;
+    padding: 0;
+    border-bottom: none;
+}
+
+
+.header-settings {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+
+.header-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    color: #333333;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+.header-toggle input {
+    width: 18px;
+    height: 18px;
+
+    margin: 0;
+
+    accent-color: #373480;
+
+    cursor: pointer;
+}
