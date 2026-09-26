@@ -22,43 +22,56 @@
 
 <body>
 
-<header class="plugin-header">
 
-    <div class="plugin-logo">
-        <a href="https://tasmanianleaders.org.au/" target="_blank" rel="noopener noreferrer">
-            <img src="images/tasmanian logo.png" alt="Tasmanian Leaders">
-        </a>
-    </div>
+    <header class="plugin-header">
 
-    <div class="header-settings">
+        <div class="plugin-logo">
 
-        <label class="header-toggle">
-            <span>Rounded corners</span>
-            <input type="checkbox" id="rounded-corners-toggle" checked>
-        </label>
+            <a href="https://tasmanianleaders.org.au/" target="_blank" rel="noopener noreferrer">
 
-    </div>
+                <img src="images/tasmanian logo.png" alt="Tasmanian Leaders">
 
-</header>
+            </a>
+
+        </div>
+
+
+        <div class="header-settings">
+
+            <label class="header-toggle">
+
+                <span>Rounded corners</span>
+
+                <input type="checkbox" id="rounded-corners-toggle" checked>
+
+            </label>
+
+        </div>
+
+    </header>
+
 
 
     <main class="report-plugin">
 
         <h1>Individual Report Plugin</h1>
 
+
         <div class="plugin-layout">
+
 
             <section class="plugin-controls">
 
 
-                <!-- Participant data -->
                 <section class="field upload-field">
 
                     <label for="excel-file">
                         Participant Data
                     </label>
 
+
                     <input type="file" id="excel-file" class="file-input" accept=".xlsx,.xls">
+
 
                     <p class="field-help">
                         Upload mock Excel participant data for prototype testing.
@@ -67,12 +80,59 @@
                 </section>
 
 
-                <!-- Participant selection -->
+
                 <section class="field">
 
-                    <label>Participant</label>
+                    <label>
+                        Report Mode
+                    </label>
+
+
+                    <div class="report-mode-options">
+
+
+                        <label class="radio-option">
+
+                            <input type="radio" name="report-mode" value="individual" checked>
+
+                            <span>
+                                Individual Report
+                            </span>
+
+                        </label>
+
+
+                        <label class="radio-option">
+
+                            <input type="radio" name="report-mode" value="batch">
+
+                            <span>
+                                Batch Reports
+                            </span>
+
+                        </label>
+
+
+                    </div>
+
+
+                    <p class="field-help">
+                        Generate a report for one participant or multiple participants.
+                    </p>
+
+                </section>
+
+
+
+                <section class="field" id="individual-participant-section">
+
+                    <label>
+                        Participant
+                    </label>
+
 
                     <details class="dropdown participant-dropdown">
+
 
                         <summary id="participant-summary">
 
@@ -81,9 +141,11 @@
                                 Participant: none
                             </span>
 
+
                             <span class="search-icon"></span>
 
                         </summary>
+
 
 
                         <div class="dropdown-menu" id="participant-menu">
@@ -92,11 +154,13 @@
                                 Participant: none
                             </div>
 
+
                             <div class="participant-option placeholder-option">
                                 Upload participant data to populate this list
                             </div>
 
                         </div>
+
 
                     </details>
 
@@ -107,9 +171,58 @@
 
                 </section>
 
+
+
+                <section class="field" id="batch-participant-section" hidden>
+
+                    <label>
+                        Batch Participants
+                    </label>
+
+
+                    <details class="dropdown">
+
+                        <summary>
+
+                            <span id="batch-participant-selected">
+                                Participants: none
+                            </span>
+
+                            <span class="arrow"></span>
+
+                        </summary>
+
+
+                        <div class="dropdown-menu" id="batch-participant-menu">
+
+                            <div class="dropdown-heading">
+                                Select Participants
+                            </div>
+
+
+                            <div class="participant-option placeholder-option">
+                                Upload participant data to populate this list
+                            </div>
+
+                        </div>
+
+                    </details>
+
+
+                    <p id="batch-participant-help" class="field-help">
+                        Select one or more participants for batch report generation.
+                    </p>
+
+                </section>
+
+
+
                 <section class="field">
 
-                    <label>Evaluation Points</label>
+                    <label>
+                        Evaluation Points
+                    </label>
+
 
                     <details class="dropdown">
 
@@ -126,45 +239,59 @@
 
                         <div class="dropdown-menu">
 
+
                             <div class="dropdown-heading">
                                 Select up to 2 Evaluation Points
                             </div>
+
 
 
                             <label class="checkbox-option">
 
                                 <input type="checkbox" class="evaluation-checkbox" value="Initial">
 
-                                <span>Initial</span>
+                                <span>
+                                    Initial
+                                </span>
 
                             </label>
+
 
 
                             <label class="checkbox-option">
 
                                 <input type="checkbox" class="evaluation-checkbox" value="Final">
 
-                                <span>Final</span>
+                                <span>
+                                    Final
+                                </span>
 
                             </label>
+
 
 
                             <label class="checkbox-option">
 
                                 <input type="checkbox" class="evaluation-checkbox" value="Delayed">
 
-                                <span>Delayed</span>
+                                <span>
+                                    Delayed
+                                </span>
 
                             </label>
+
 
 
                             <label class="checkbox-option">
 
                                 <input type="checkbox" class="evaluation-checkbox" value="Managers">
 
-                                <span>Managers</span>
+                                <span>
+                                    Managers
+                                </span>
 
                             </label>
+
 
                         </div>
 
@@ -180,9 +307,13 @@
                 </section>
 
 
+
                 <section class="field">
 
-                    <label>Compare Against</label>
+                    <label>
+                        Compare Against
+                    </label>
+
 
                     <details class="dropdown">
 
@@ -199,49 +330,67 @@
 
                         <div class="dropdown-menu">
 
+
                             <div class="dropdown-heading">
                                 Select Benchmark
                             </div>
 
 
+
                             <!-- No benchmark -->
+
                             <label class="checkbox-option">
 
                                 <input type="checkbox" class="benchmark-checkbox" value="None" checked>
 
-                                <span>No benchmark</span>
+                                <span>
+                                    No benchmark
+                                </span>
 
                             </label>
 
 
+
                             <!-- Every participant from all time -->
+
                             <label class="checkbox-option">
 
                                 <input type="checkbox" class="benchmark-checkbox" value="All Participants">
 
-                                <span>All participants</span>
+                                <span>
+                                    All participants
+                                </span>
 
                             </label>
 
 
+
                             <!-- Particular program -->
+
                             <label class="checkbox-option">
 
                                 <input type="checkbox" class="benchmark-checkbox" value="Specific Program">
 
-                                <span>Specific program</span>
+                                <span>
+                                    Specific program
+                                </span>
 
                             </label>
 
 
+
                             <!-- Particular program across all time -->
+
                             <label class="checkbox-option">
 
                                 <input type="checkbox" class="benchmark-checkbox" value="Program Across All Years">
 
-                                <span>Program across all years</span>
+                                <span>
+                                    Program across all years
+                                </span>
 
                             </label>
+
 
                         </div>
 
@@ -256,7 +405,6 @@
 
 
 
-                <!-- Generate report -->
                 <div class="button-row">
 
                     <button type="button" id="generate-report-button">
@@ -272,20 +420,25 @@
             </section>
 
 
+
             <section class="report-preview" id="report-preview">
 
 
                 <div class="preview-heading">
 
+
                     <span class="preview-label">
                         REPORT PREVIEW
                     </span>
+
 
                     <p>
                         Individual Participant Report
                     </p>
 
+
                 </div>
+
 
 
                 <p class="preview-note">
@@ -301,24 +454,29 @@
                     <article class="report-page profile-page" id="report-page">
 
 
-                        <!-- Report header -->
                         <header class="page-top">
+
 
                             <div class="organisation-name">
                                 Tasmanian<br>
                                 Leaders
                             </div>
 
+
                             <div class="program-name">
                                 I-LEAD YOUNG PROFESSIONALS 2026
                             </div>
 
+
                         </header>
 
-                        <!-- Profile heading -->
+
+
                         <div class="profile-heading">
 
+
                             <div class="profile-heading-text">
+
 
                                 <h2>
                                     Your<br>
@@ -327,9 +485,11 @@
                                 </h2>
 
 
+
                                 <p class="dynamic-data participant-name" id="profile-participant-name">
                                     Participant name
                                 </p>
+
 
 
                                 <p class="dynamic-data">
@@ -337,9 +497,11 @@
                                 </p>
 
 
+
                                 <p class="dynamic-data" id="profile-evaluation-points">
                                     Evaluation points (none)
                                 </p>
+
 
                             </div>
 
@@ -359,12 +521,13 @@
 
 
 
-                        <!-- Report introduction -->
                         <section class="profile-introduction">
+
 
                             <h3>
                                 About your results
                             </h3>
+
 
 
                             <p>
@@ -376,80 +539,109 @@
                             </p>
 
 
+
                             <p>
                                 Your results are presented alongside relevant cohort and
                                 benchmark data to provide context and support reflection
                                 on your leadership development.
                             </p>
 
+
                         </section>
 
 
 
-                        <!-- Leadership summary -->
                         <section class="leadership-summary">
 
 
+                            <!-- INSIGHT -->
+
                             <div class="summary-card">
+
 
                                 <span class="summary-title">
                                     INSIGHT
                                 </span>
 
+
                                 <p class="summary-heading">
                                     Understanding yourself and your environment
                                 </p>
+
 
                                 <p class="summary-description">
                                     Self-awareness, purpose and informed decision-making.
                                 </p>
 
-                                <strong>--</strong>
+
+                                <strong>
+                                    --
+                                </strong>
+
 
                             </div>
 
 
 
+                            <!-- INFLUENCE -->
+
                             <div class="summary-card">
+
 
                                 <span class="summary-title">
                                     INFLUENCE
                                 </span>
 
+
                                 <p class="summary-heading">
                                     Working effectively with others
                                 </p>
+
 
                                 <p class="summary-description">
                                     Collaboration, relationships and navigating complexity.
                                 </p>
 
-                                <strong>--</strong>
+
+                                <strong>
+                                    --
+                                </strong>
+
 
                             </div>
 
 
 
+                            <!-- IMPACT -->
+
                             <div class="summary-card">
+
 
                                 <span class="summary-title">
                                     IMPACT
                                 </span>
 
+
                                 <p class="summary-heading">
                                     Making a meaningful contribution
                                 </p>
+
 
                                 <p class="summary-description">
                                     Motivation, belonging and connection to people and place.
                                 </p>
 
-                                <strong>--</strong>
+
+                                <strong>
+                                    --
+                                </strong>
+
 
                             </div>
 
 
                         </section>
+
 
 
                         <p class="prototype-disclaimer">
@@ -458,16 +650,18 @@
 
 
 
-                        <!-- Report footer -->
                         <footer class="page-footer">
+
 
                             <span class="page-number">
                                 01
                             </span>
 
+
                             <span class="dynamic-data" id="profile-footer-name">
                                 PARTICIPANT NAME
                             </span>
+
 
                         </footer>
 
@@ -477,15 +671,19 @@
 
                 </div>
 
+
             </section>
 
 
         </div>
 
+
     </main>
 
 
+
     <script src="js/script.js"></script>
+
 
 </body>
 
