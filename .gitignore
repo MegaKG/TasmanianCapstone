@@ -47,5 +47,7 @@ wp-config.php
 # uncomment the next line
 #/wp-content/themes
 
+# Node dependencies
+node_modules/
 # Important!!!! - .env key file
 .env

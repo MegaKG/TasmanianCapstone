@@ -58,3 +58,10 @@ Representative frontend states and mock data are currently used where these comp
 The frontend prototype is ready for handover following final testing and repository submission.
 
 Mock data and prototype report-generation behaviour can be replaced during integration without recreating the existing frontend interaction model.
+
+
+## Unresolved UX Issues
+- Awaiting access to exact client fonts, logos and visual assets.
+- Final UX/frontend integration pending backend completion and merge.
+- Final report visuals require client review and sign-off.
+- V3 report prototype still to be completed/finalised.
