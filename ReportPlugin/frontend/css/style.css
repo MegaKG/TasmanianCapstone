@@ -14,6 +14,7 @@ body {
     line-height: 1.5;
 }
 
+
 /* TYPOGRAPHY */
 
 p {
@@ -29,8 +30,6 @@ summary {
     font-family: inherit;
 }
 
-
-/* HEADER AND MAIN */
 
 .plugin-logo {
     padding: 20px 34px;
@@ -64,7 +63,7 @@ summary {
     padding: 55px 0 80px;
 }
 
-.report-plugin>h1 {
+.report-plugin > h1 {
     margin: 0 0 55px;
     text-align: center;
     color: #312f77;
@@ -82,7 +81,6 @@ summary {
 }
 
 
-/* LAYOUT */
 .plugin-layout {
     display: grid;
     grid-template-columns: 460px minmax(0, 1fr);
@@ -97,17 +95,16 @@ summary {
 }
 
 
-/* FORMS CONTROLS */
 .field {
     width: 100%;
     margin: 0 0 38px;
 }
 
-.field>label {
+.field > label {
     display: block;
     margin-bottom: 0.5rem;
     color: #312f77;
-    font-size: 19px;
+    font-size: 18px;
     line-height: 1.25;
     font-weight: bold;
 }
@@ -119,10 +116,14 @@ summary {
 .field-help {
     margin: 8px 0 0;
     color: #666666;
+    font-size: 20px;
+    line-height: 1.5;
 }
 
 .participant-edit-help {
     margin-top: 7px;
+    font-size: 20px;
+    line-height: 1.5;
 }
 
 .file-input {
@@ -134,7 +135,7 @@ summary {
     border: 1px solid #777777;
     color: #222222;
     font-family: inherit;
-    font-size: 16px;
+    font-size: 15px;
     cursor: pointer;
 }
 
@@ -154,30 +155,7 @@ summary {
     background-color: #514f88;
 }
 
-.field>label {
-    font-size: 18px;
-}
 
-.file-input {
-    font-size: 15px;
-}
-
-.file-input::file-selector-button {
-    font-size: 15px;
-}
-
-.field-help {
-    font-size: 20px;
-    line-height: 1.5;
-}
-
-.field-help participant-edit-help {
-    font-size: 20px;
-    line-height: 1.5;
-}
-
-
-/* DROPDOWNS */
 .dropdown {
     position: relative;
     display: block;
@@ -195,7 +173,7 @@ summary {
     background-color: #373480;
     border: none;
     color: #ffffff;
-    font-size: 19px;
+    font-size: 18px;
     line-height: 1.3;
     font-weight: 500;
     cursor: pointer;
@@ -236,6 +214,7 @@ summary {
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-size: 18px;
 }
 
 .participant-inline-editor {
@@ -257,10 +236,6 @@ summary {
 
 .dropdown-menu {
     position: static;
-    width: 100%;
-    background-color: #ffffff;
-    border: 1px solid #777777;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
     width: 100%;
     background-color: #ffffff;
     border: 1px solid #777777;
@@ -356,25 +331,7 @@ summary {
     transform: rotate(45deg);
 }
 
-.dropdown summary {
-    font-size: 18px;
-}
 
-.participant-selected {
-    font-size: 18px;
-}
-
-.dropdown-heading {
-    font-size: 16px;
-}
-
-.participant-option,
-.checkbox-option {
-    font-size: 16px;
-}
-
-
-/* GENERATE REPORT */
 .button-row {
     display: flex;
     justify-content: flex-start;
@@ -391,7 +348,7 @@ summary {
     border: none;
     color: #ffffff;
     text-align: left;
-    font-size: 18px;
+    font-size: 17px;
     line-height: 1.3;
     font-weight: 500;
     cursor: pointer;
@@ -439,12 +396,7 @@ summary {
     color: #4d6d4d;
 }
 
-#generate-report-button {
-    font-size: 17px;
-}
 
-
-/* REPORT PREVIEW */
 .report-preview {
     min-width: 0;
     margin: 0;
@@ -460,7 +412,7 @@ summary {
 .preview-label {
     display: block;
     color: #777777;
-    font-size: 15px;
+    font-size: 14px;
     line-height: 1.3;
     font-weight: 600;
     letter-spacing: 1px;
@@ -469,7 +421,7 @@ summary {
 .preview-heading p {
     margin: 6px 0 0;
     color: #312f77;
-    font-size: 21px;
+    font-size: 20px;
     line-height: 1.35;
     font-weight: 500;
 }
@@ -478,7 +430,7 @@ summary {
     width: 100%;
     margin: 0 0 24px;
     color: #777777;
-    font-size: 15px;
+    font-size: 14px;
     line-height: 1.5;
 }
 
@@ -500,6 +452,7 @@ summary {
     overflow: hidden;
     background-color: #ffffff;
     border: 1px solid #aaaaaa;
+    font-size: 17px;
 }
 
 .page-top {
@@ -520,7 +473,7 @@ summary {
 .program-name {
     text-align: right;
     color: #69bfd1;
-    font-size: 13px;
+    font-size: 15px;
     line-height: 1.3;
     font-weight: 600;
     letter-spacing: 0.4px;
@@ -548,20 +501,20 @@ summary {
     margin: 0 0 22px;
     color: #29277c;
     font-family: Georgia, "Times New Roman", serif;
-    font-size: 54px;
+    font-size: 64px;
     line-height: 0.9;
     font-weight: normal;
 }
 
 .profile-heading p {
     margin: 6px 0;
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.5;
 }
 
 .dynamic-data {
     color: #69bfd1;
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.5;
 }
 
@@ -595,7 +548,7 @@ summary {
     margin: 0 0 16px;
     color: #29277c;
     font-size: 21px;
-    line-height: 1.25;
+    line-height: 1.3;
     font-weight: 600;
 }
 
@@ -603,7 +556,7 @@ summary {
     margin: 12px 0;
     color: #222222;
     font-size: 17px;
-    line-height: 1.5;
+    line-height: 1.55;
 }
 
 .leadership-summary {
@@ -613,174 +566,392 @@ summary {
     margin-top: 36px;
 }
 
-.summary-card {
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    min-height: 230px;
-    padding: 20px;
-    background-color: #eeeeee;
-    border-radius: 4px;
-}
-
-.summary-title {
-    margin: 0;
-    color: #29277c;
-    font-size: 15px;
-    line-height: 1.3;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-}
-
-.summary-heading {
-    margin: 12px 0 8px;
-    color: #222222;
-    font-size: 16px;
-    line-height: 1.4;
-    font-weight: 600;
-}
-
-.summary-description {
-    margin: 0;
-    color: #555555;
-    font-size: 15px;
-    line-height: 1.5;
-}
-
-.summary-card strong {
-    margin-top: auto;
-    color: #29277c;
-    text-align: center;
-    font-size: 36px;
-    line-height: 1;
-    font-weight: 600;
-}
-
 .prototype-disclaimer {
     margin: 22px 0 0;
     color: #b45f5f;
     text-align: center;
-    font-size: 12px;
+    font-size: 13px;
     line-height: 1.5;
 }
 
+
 .page-footer {
+    position: absolute;
+    left: 32px;
+    right: 32px;
+    bottom: 24px;
+
     display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-top: auto;
-    padding-top: 30px;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.page-footer-left {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
 }
 
 .page-number {
     display: flex;
     align-items: center;
     justify-content: center;
+
     width: 34px;
-    height: 28px;
+    height: 34px;
+    flex: 0 0 34px;
+
     background-color: #dddddd;
     border-radius: 50%;
-    color: #222222;
+
+    color: #111111;
     font-size: 12px;
+    font-weight: 600;
     line-height: 1;
 }
 
-.page-footer .dynamic-data {
+.footer-participant-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: #69bfd1;
+}
+
+.report-footer-mark {
+    display: flex;
+    align-items: baseline;
+    gap: 3px;
+
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1;
+    color: #111111;
+}
+
+
+.plugin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 20px 32px;
+
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.plugin-header .plugin-logo {
+    display: flex;
+    align-items: center;
+
+    margin: 0;
+    padding: 0;
+
+    border-bottom: none;
+}
+
+.plugin-header .plugin-logo img {
+    display: block;
+}
+
+.header-settings {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.header-toggle {
+    display: none !important;
+}
+
+.header-toggle input {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+
+    accent-color: #373480;
+
+    cursor: pointer;
+}
+
+
+.dropdown summary,
+.dropdown-menu,
+.file-input,
+.file-input::file-selector-button,
+#generate-report-button,
+.participant-inline-editor {
+    border-radius: 24px;
+}
+
+body.square-ui .dropdown summary,
+body.square-ui .dropdown-menu,
+body.square-ui .file-input,
+body.square-ui .file-input::file-selector-button,
+body.square-ui #generate-report-button,
+body.square-ui .participant-inline-editor {
+    border-radius: 0;
+}
+
+
+.summary-card {
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+    min-height: 225px;
+
+    padding: 17px;
+
+    border: none;
+    border-radius: 22px;
+
+    color: #111111;
+}
+
+
+/* INSIGHT */
+
+.insight-card {
+    background-color: #c9f5f8;
+}
+
+
+/* INFLUENCE */
+
+.influence-card {
+    background-color: #a8f2b4;
+}
+
+
+/* IMPACT */
+
+.impact-card {
+    background-color: #fff4a8;
+}
+
+
+/* Card category title */
+
+.summary-title {
+    margin: 0;
+
+    color: #111111;
+
     font-size: 12px;
-    line-height: 1.4;
+    line-height: 1.3;
     font-weight: 500;
 }
 
-.report-page {
-    font-size: 17px;
+
+/* SCORE AREA */
+
+.summary-score-area {
+    margin-top: 6px;
+    margin-bottom: 14px;
 }
 
-/* Top-right program name */
-.program-name {
-    font-size: 15px;
+.summary-score-change {
+    margin-bottom: 1px;
+
+    color: #111111;
+
+    text-align: center;
+
+    font-size: 9px;
+    line-height: 1;
+    font-weight: 500;
 }
 
-/* Main report title */
-.profile-heading h2 {
-    font-size: 64px;
-    line-height: 0.9;
+.summary-score-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 10px;
 }
 
-/* Participant name */
-.participant-name {
-    font-size: 18px;
+.summary-score {
+    color: #111111;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 25px;
+    line-height: 1;
+    font-weight: 400;
 }
 
-/* Participant metadata */
-.profile-heading p,
-.dynamic-data {
-    font-size: 16px;
-    line-height: 1.5;
+.summary-arrow {
+    position: relative;
+
+    flex: 1;
+
+    height: 3px;
+
+    background-color: #111111;
+
+    color: transparent;
+
+    font-size: 0;
 }
 
-/* Photo placeholder */
-.participant-photo {
-    font-size: 14px;
+.summary-arrow::after {
+    content: "";
+
+    position: absolute;
+
+    top: 50%;
+    right: -1px;
+
+    width: 0;
+    height: 0;
+
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 8px solid #111111;
+
+    transform: translateY(-50%);
 }
 
-/* About your results */
-.profile-introduction h3 {
-    font-size: 21px;
+
+/* BENCHMARK */
+
+.summary-benchmark {
+    margin-top: 7px;
+    margin-bottom: 13px;
+
+    padding-top: 0;
+
+    text-align: center;
+
+    border: none;
+}
+
+.benchmark-label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #111111;
+
+    font-size: 7px;
+    line-height: 1.2;
+    font-weight: 500;
+
+    letter-spacing: 0;
+}
+
+.benchmark-dynamic {
+    display: block;
+
+    color: #69bfd1;
+
+    font-size: 10px;
     line-height: 1.3;
+    font-weight: 600;
 }
 
-/* Main report paragraphs */
-.profile-introduction p {
-    font-size: 17px;
-    line-height: 1.55;
+.benchmark-score {
+    display: block;
+
+    color: #111111;
+
+    font-size: 24px;
+    line-height: 1;
+    font-weight: 400;
 }
 
-/* INSIGHT / INFLUENCE / IMPACT */
-.summary-title {
-    font-size: 16px;
-    line-height: 1.3;
+
+/* CARD TEXT */
+
+.summary-card-content {
+    margin-top: 0;
 }
 
-/* Card headings */
 .summary-heading {
-    font-size: 17px;
-    line-height: 1.35;
+    margin: 0 0 16px;
+
+    color: #111111;
+
+    font-size: 10px;
+    line-height: 1.25;
+    font-weight: 500;
 }
 
-/* Card descriptions */
 .summary-description {
-    font-size: 15px;
-    line-height: 1.5;
+    margin: 0;
+
+    color: #111111;
+
+    font-size: 9px;
+    line-height: 1.35;
+    font-weight: 400;
 }
 
-/* Result numbers */
-.summary-card strong {
-    font-size: 40px;
+
+.database-source-placeholder {
+    display: block;
 }
 
-/* Prototype disclaimer */
-.prototype-disclaimer {
+.database-source-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 16px 18px;
+
+    background: #f8f7fb;
+    border: 1px solid #ddd9e8;
+    border-radius: 6px;
+}
+
+.database-source-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.database-source-text strong {
+    color: #39327c;
     font-size: 13px;
+    font-weight: 700;
 }
 
-/* Footer */
-.page-number,
-.page-footer .dynamic-data {
-    font-size: 13px;
+.database-source-text span {
+    color: #6c687a;
+    font-size: 11px;
+    line-height: 1.4;
 }
 
-.preview-label {
-    font-size: 14px;
+.database-status {
+    flex-shrink: 0;
+
+    padding: 6px 10px;
+
+    background: #eeecf5;
+    color: #39327c;
+
+    border: 1px solid #d8d4e5;
+    border-radius: 4px;
+
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
 }
 
-.preview-heading p {
-    font-size: 20px;
+
+/* Hide prototype Excel upload */
+
+.upload-field {
+    display: none !important;
 }
 
-.preview-note {
-    font-size: 14px;
-    line-height: 1.5;
-}
 
 @media (min-width: 1400px) {
 
@@ -800,225 +971,6 @@ summary {
     }
 }
 
-@media (max-width: 1100px) {
-
-    body {
-        padding: 25px;
-    }
-
-    .report-plugin {
-        width: 100%;
-        padding: 40px 20px 60px;
-    }
-
-    .plugin-layout {
-        grid-template-columns: 360px minmax(0, 1fr);
-        gap: 40px;
-    }
-
-    .plugin-controls {
-        padding-right: 35px;
-    }
-
-    .dropdown summary {
-        min-height: 85px;
-        padding: 18px 22px;
-        font-size: 17px;
-    }
-
-    .report-page {
-        padding: 38px;
-    }
-
-    .profile-heading h2 {
-        font-size: 46px;
-    }
-
-    .profile-introduction p {
-        font-size: 16px;
-    }
-
-    .summary-description {
-        font-size: 14px;
-    }
-}
-
-@media (max-width: 900px) {
-
-    body {
-        padding: 20px;
-    }
-
-    .report-plugin {
-        padding: 35px 20px 55px;
-    }
-
-    .report-plugin>h1 {
-        margin-bottom: 40px;
-        font-size: 22px;
-    }
-
-    .plugin-layout {
-        grid-template-columns: 1fr;
-        gap: 50px;
-    }
-
-    .plugin-controls {
-        padding-right: 0;
-        padding-bottom: 45px;
-        border-right: none;
-        border-bottom: 1px solid #bbbbbb;
-    }
-
-    .dropdown summary {
-        min-height: 90px;
-    }
-
-    #generate-report-button {
-        max-width: 100%;
-    }
-
-    .report-page {
-        max-width: 800px;
-        margin: 0 auto;
-    }
-}
-
-@media (max-width: 600px) {
-
-    body {
-        padding: 12px;
-        font-size: 16px;
-    }
-
-    p {
-        font-size: 16px;
-    }
-
-    .plugin-logo {
-        padding: 16px 10px;
-    }
-
-    .plugin-logo img,
-    .plugin-logo a img {
-        width: 150px;
-    }
-
-    .report-plugin {
-        width: 100%;
-        padding: 30px 5px 50px;
-    }
-
-    .report-plugin>h1 {
-        font-size: 21px;
-    }
-
-    .field>label {
-        font-size: 18px;
-    }
-
-    .field-help {
-        font-size: 14px;
-    }
-
-    .dropdown summary {
-        min-height: 78px;
-        padding: 16px 20px;
-        font-size: 17px;
-    }
-
-    .participant-option,
-    .checkbox-option,
-    .dropdown-heading {
-        font-size: 15px;
-    }
-
-    #generate-report-button {
-        min-height: 58px;
-        font-size: 17px;
-    }
-
-    .preview-label {
-        font-size: 13px;
-    }
-
-    .preview-heading p {
-        font-size: 19px;
-    }
-
-    .preview-note {
-        font-size: 14px;
-    }
-
-    .report-page {
-        min-height: auto;
-        padding: 28px 22px;
-    }
-
-    .page-top {
-        margin-bottom: 35px;
-    }
-
-    .profile-heading {
-        flex-direction: column;
-    }
-
-    .profile-heading h2 {
-        font-size: 44px;
-    }
-
-    .participant-photo {
-        flex-basis: auto;
-        width: 100%;
-        max-width: 185px;
-        height: 165px;
-    }
-
-    .participant-name {
-        font-size: 17px;
-    }
-
-    .dynamic-data {
-        font-size: 14px;
-    }
-
-    .profile-introduction {
-        margin-top: 30px;
-    }
-
-    .profile-introduction h3 {
-        font-size: 19px;
-    }
-
-    .profile-introduction p {
-        font-size: 16px;
-    }
-
-    .leadership-summary {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-
-    .summary-card {
-        min-height: 190px;
-    }
-
-    .summary-title {
-        font-size: 14px;
-    }
-
-    .summary-heading {
-        font-size: 15px;
-    }
-
-    .summary-description {
-        font-size: 14px;
-    }
-
-    .summary-card strong {
-        font-size: 32px;
-    }
-}
 
 @media (min-width: 1101px) {
 
@@ -1038,7 +990,7 @@ summary {
         padding-right: 55px;
     }
 
-    .field>label {
+    .field > label {
         font-size: 20px;
         line-height: 1.5;
     }
@@ -1168,143 +1120,7 @@ summary {
         margin-top: 38px;
     }
 
-    .summary-card {
-        min-height: 250px;
-        padding: 22px;
-    }
-
-    .summary-title {
-        font-size: 16px;
-        line-height: 1.3;
-    }
-
-    .summary-heading {
-        font-size: 17px;
-        line-height: 1.4;
-    }
-
-    .summary-description {
-        font-size: 16px;
-        line-height: 1.5;
-    }
-
-    .summary-card strong {
-        font-size: 40px;
-    }
-
     .prototype-disclaimer {
         font-size: 13px;
     }
-
-    .page-number {
-        font-size: 13px;
-    }
-
-    .page-footer .dynamic-data {
-        font-size: 13px;
-    }
-}
-
-.plugin-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    width: 100%;
-    box-sizing: border-box;
-
-    padding: 20px 32px;
-}
-
-.plugin-logo {
-    display: flex;
-    align-items: center;
-}
-
-.plugin-logo img {
-    display: block;
-}
-
-.header-settings {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-}
-
-.header-toggle {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-
-    font-size: 13px;
-    font-weight: 600;
-
-    cursor: pointer;
-}
-
-.header-toggle input {
-    cursor: pointer;
-}
-
-/* Default rounded interface */
-.dropdown summary,
-.dropdown-menu,
-.file-input,
-.file-input::file-selector-button,
-#generate-report-button,
-.participant-inline-editor {
-    border-radius: 24px;
-}
-
-/* Turn rounded corners OFF */
-body.square-ui .dropdown summary,
-body.square-ui .dropdown-menu,
-body.square-ui .file-input,
-body.square-ui .file-input::file-selector-button,
-body.square-ui #generate-report-button,
-body.square-ui .participant-inline-editor {
-    border-radius: 0;
-}
-
-.plugin-header {
-    border-bottom: 1px solid #e5e5e5;
-}
-
-.plugin-header .plugin-logo {
-    margin: 0;
-    padding: 0;
-    border-bottom: none;
-}
-
-
-.header-settings {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-}
-
-
-.header-toggle {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-
-    color: #333333;
-
-    font-size: 14px;
-    font-weight: 600;
-
-    cursor: pointer;
-}
-
-
-.header-toggle input {
-    width: 18px;
-    height: 18px;
-
-    margin: 0;
-
-    accent-color: #373480;
-
-    cursor: pointer;
 }
