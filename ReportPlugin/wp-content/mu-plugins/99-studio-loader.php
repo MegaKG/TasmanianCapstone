@@ -17,7 +17,7 @@
 		// Set environment type to local if not already defined
 		if ( ! defined( 'WP_ENVIRONMENT_TYPE' ) ) define( 'WP_ENVIRONMENT_TYPE', 'local' );
 
-		$studio_mu_plugins_dir = '/tmp/studio-mu-plugins-CW39Cj';
+		$studio_mu_plugins_dir = '/tmp/studio-mu-plugins-hJm9P1';
 
 		if ( is_dir( $studio_mu_plugins_dir ) ) {
 			$files = glob( $studio_mu_plugins_dir . '/*.php' );

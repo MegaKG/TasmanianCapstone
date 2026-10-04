@@ -19,12 +19,15 @@ require_once __DIR__ . '/include/gravityforms-uplink.php';
 
 // Load .env variables (such as oauth creds and form config)
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+$dotenv->load(); 
 
 // Test Function
 add_shortcode('env_test', function () {
     // Test the query
     error_log(print_r(get_gravity_forms_list(), true));
+    // Test query of question map for form id 43
+    //error_log(print_r(get_form_question_map(43), true));
+    //error_log(print_r(get_form_entry_names( 43, '52.3', '52.6'), true));
 
     $consumer_key = $_ENV['CONSUMER_KEY'];
     $consumer_secret = $_ENV['CONSUMER_SECRET'];

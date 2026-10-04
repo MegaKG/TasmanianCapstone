@@ -51,6 +51,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'evaluation_points' => $evaluation_points,
             'benchmarks' => $benchmarks
             ],    
-    , true));
+     true));
 
 }
