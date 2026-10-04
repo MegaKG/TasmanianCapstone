@@ -27,7 +27,7 @@ add_shortcode('env_test', function () {
     error_log(print_r(get_gravity_forms_list(), true));
     // Test query of question map for form id 43
     //error_log(print_r(get_form_question_map(43), true));
-    error_log(print_r(get_form_entry_names( 43, '52.3', '52.6'), true));
+    //error_log(print_r(get_form_entry_names( 43, '52.3', '52.6'), true));
 
     $consumer_key = $_ENV['CONSUMER_KEY'];
     $consumer_secret = $_ENV['CONSUMER_SECRET'];
