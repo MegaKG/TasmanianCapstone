@@ -49,3 +49,5 @@ wp-config.php
 
 # Node dependencies
 node_modules/
+# Important!!!! - .env key file
+.env
