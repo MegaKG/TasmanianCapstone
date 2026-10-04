@@ -1,14 +1,21 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Google Font: Montserrat -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
+
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
 
     <title>Individual Report Plugin</title>
 
@@ -16,21 +23,28 @@
 
     <!-- Libraries used for Excel reading and prototype PDF generation -->
     <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 
-<body>
 
+<body>
 
     <header class="plugin-header">
 
         <div class="plugin-logo">
 
-            <a href="https://tasmanianleaders.org.au/" target="_blank" rel="noopener noreferrer">
-
-                <img src="images/tasmanian logo.png" alt="Tasmanian Leaders">
-
+            <a
+                href="https://tasmanianleaders.org.au/"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                <img
+                    src="images/tasmanian logo.png"
+                    alt="Tasmanian Leaders"
+                >
             </a>
 
         </div>
@@ -42,7 +56,11 @@
 
                 <span>Rounded corners</span>
 
-                <input type="checkbox" id="rounded-corners-toggle" checked>
+                <input
+                    type="checkbox"
+                    id="rounded-corners-toggle"
+                    checked
+                >
 
             </label>
 
@@ -69,9 +87,12 @@
                         Participant Data
                     </label>
 
-
-                    <input type="file" id="excel-file" class="file-input" accept=".xlsx,.xls">
-
+                    <input
+                        type="file"
+                        id="excel-file"
+                        class="file-input"
+                        accept=".xlsx,.xls"
+                    >
 
                     <p class="field-help">
                         Upload mock Excel participant data for prototype testing.
@@ -81,19 +102,50 @@
 
 
 
+
+
+                <section class="field database-source-placeholder">
+
+                    <label>
+                        Participant Data Source
+                    </label>
+
+                    <div class="database-source-box">
+
+                        <div class="database-source-text">
+                            <strong>Database Connection</strong>
+                            <span>Participant data will be retrieved from the connected database.</span>
+                        </div>
+
+                        <span class="database-status">
+                            Pending Integration
+                        </span>
+
+                    </div>
+
+                    <p class="field-help">
+                        Database integration will replace the prototype Excel data source.
+                    </p>
+
+                </section>
+
+
                 <section class="field">
 
                     <label>
                         Report Mode
                     </label>
 
-
                     <div class="report-mode-options">
-
 
                         <label class="radio-option">
 
-                            <input type="radio" name="report-mode" value="individual" checked>
+                            <input
+                                type="radio"
+                                name="report-mode"
+                                value="individual"
+                                checked
+                            >
 
                             <span>
                                 Individual Report
@@ -104,7 +156,11 @@
 
                         <label class="radio-option">
 
-                            <input type="radio" name="report-mode" value="batch">
+                            <input
+                                type="radio"
+                                name="report-mode"
+                                value="batch"
+                            >
 
                             <span>
                                 Batch Reports
@@ -112,9 +168,7 @@
 
                         </label>
 
-
                     </div>
-
 
                     <p class="field-help">
                         Generate a report for one participant or multiple participants.
@@ -124,43 +178,46 @@
 
 
 
-                <section class="field" id="individual-participant-section">
+                <section
+                    class="field"
+                    id="individual-participant-section"
+                >
 
                     <label>
                         Participant
                     </label>
 
-
                     <details class="dropdown participant-dropdown">
-
 
                         <summary id="participant-summary">
 
-                            <span id="participant-selected" class="participant-selected"
-                                title="Double-click selected participant name to edit">
+                            <span
+                                id="participant-selected"
+                                class="participant-selected"
+                                title="Double-click selected participant name to edit"
+                            >
                                 Participant: none
                             </span>
-
 
                             <span class="search-icon"></span>
 
                         </summary>
 
 
-
-                        <div class="dropdown-menu" id="participant-menu">
+                        <div
+                            class="dropdown-menu"
+                            id="participant-menu"
+                        >
 
                             <div class="dropdown-heading">
                                 Participant: none
                             </div>
-
 
                             <div class="participant-option placeholder-option">
                                 Upload participant data to populate this list
                             </div>
 
                         </div>
-
 
                     </details>
 
@@ -173,12 +230,15 @@
 
 
 
-                <section class="field" id="batch-participant-section" hidden>
+                <section
+                    class="field"
+                    id="batch-participant-section"
+                    hidden
+                >
 
                     <label>
                         Batch Participants
                     </label>
-
 
                     <details class="dropdown">
 
@@ -193,12 +253,14 @@
                         </summary>
 
 
-                        <div class="dropdown-menu" id="batch-participant-menu">
+                        <div
+                            class="dropdown-menu"
+                            id="batch-participant-menu"
+                        >
 
                             <div class="dropdown-heading">
                                 Select Participants
                             </div>
-
 
                             <div class="participant-option placeholder-option">
                                 Upload participant data to populate this list
@@ -209,7 +271,10 @@
                     </details>
 
 
-                    <p id="batch-participant-help" class="field-help">
+                    <p
+                        id="batch-participant-help"
+                        class="field-help"
+                    >
                         Select one or more participants for batch report generation.
                     </p>
 
@@ -222,7 +287,6 @@
                     <label>
                         Evaluation Points
                     </label>
-
 
                     <details class="dropdown">
 
@@ -239,16 +303,18 @@
 
                         <div class="dropdown-menu">
 
-
                             <div class="dropdown-heading">
                                 Select up to 2 Evaluation Points
                             </div>
 
 
-
                             <label class="checkbox-option">
 
-                                <input type="checkbox" class="evaluation-checkbox" value="Initial">
+                                <input
+                                    type="checkbox"
+                                    class="evaluation-checkbox"
+                                    value="Initial"
+                                >
 
                                 <span>
                                     Initial
@@ -257,10 +323,13 @@
                             </label>
 
 
-
                             <label class="checkbox-option">
 
-                                <input type="checkbox" class="evaluation-checkbox" value="Final">
+                                <input
+                                    type="checkbox"
+                                    class="evaluation-checkbox"
+                                    value="Final"
+                                >
 
                                 <span>
                                     Final
@@ -269,10 +338,13 @@
                             </label>
 
 
-
                             <label class="checkbox-option">
 
-                                <input type="checkbox" class="evaluation-checkbox" value="Delayed">
+                                <input
+                                    type="checkbox"
+                                    class="evaluation-checkbox"
+                                    value="Delayed"
+                                >
 
                                 <span>
                                     Delayed
@@ -281,10 +353,13 @@
                             </label>
 
 
-
                             <label class="checkbox-option">
 
-                                <input type="checkbox" class="evaluation-checkbox" value="Managers">
+                                <input
+                                    type="checkbox"
+                                    class="evaluation-checkbox"
+                                    value="Managers"
+                                >
 
                                 <span>
                                     Managers
@@ -292,13 +367,15 @@
 
                             </label>
 
-
                         </div>
 
                     </details>
 
 
-                    <p id="evaluation-disclaimer" class="field-help">
+                    <p
+                        id="evaluation-disclaimer"
+                        class="field-help"
+                    >
                         No evaluation point selected. Select one evaluation point
                         for a single-point report or two evaluation points for a
                         comparative report.
@@ -313,7 +390,6 @@
                     <label>
                         Compare Against
                     </label>
-
 
                     <details class="dropdown">
 
@@ -330,18 +406,19 @@
 
                         <div class="dropdown-menu">
 
-
                             <div class="dropdown-heading">
                                 Select Benchmark
                             </div>
 
 
-
-                            <!-- No benchmark -->
-
                             <label class="checkbox-option">
 
-                                <input type="checkbox" class="benchmark-checkbox" value="None" checked>
+                                <input
+                                    type="checkbox"
+                                    class="benchmark-checkbox"
+                                    value="None"
+                                    checked
+                                >
 
                                 <span>
                                     No benchmark
@@ -350,12 +427,13 @@
                             </label>
 
 
-
-                            <!-- Every participant from all time -->
-
                             <label class="checkbox-option">
 
-                                <input type="checkbox" class="benchmark-checkbox" value="All Participants">
+                                <input
+                                    type="checkbox"
+                                    class="benchmark-checkbox"
+                                    value="All Participants"
+                                >
 
                                 <span>
                                     All participants
@@ -364,12 +442,13 @@
                             </label>
 
 
-
-                            <!-- Particular program -->
-
                             <label class="checkbox-option">
 
-                                <input type="checkbox" class="benchmark-checkbox" value="Specific Program">
+                                <input
+                                    type="checkbox"
+                                    class="benchmark-checkbox"
+                                    value="Specific Program"
+                                >
 
                                 <span>
                                     Specific program
@@ -378,19 +457,19 @@
                             </label>
 
 
-
-                            <!-- Particular program across all time -->
-
                             <label class="checkbox-option">
 
-                                <input type="checkbox" class="benchmark-checkbox" value="Program Across All Years">
+                                <input
+                                    type="checkbox"
+                                    class="benchmark-checkbox"
+                                    value="Program Across All Years"
+                                >
 
                                 <span>
                                     Program across all years
                                 </span>
 
                             </label>
-
 
                         </div>
 
@@ -407,127 +486,135 @@
 
                 <div class="button-row">
 
-                    <button type="button" id="generate-report-button">
+                    <button
+                        type="button"
+                        id="generate-report-button"
+                    >
                         Generate Report
                     </button>
 
                 </div>
 
 
-                <div id="report-message" class="report-message" aria-live="polite"></div>
-
+                <div
+                    id="report-message"
+                    class="report-message"
+                    aria-live="polite"
+                ></div>
 
             </section>
 
 
 
-            <section class="report-preview" id="report-preview">
+            <section
+                class="report-preview"
+                id="report-preview"
+            >
 
 
                 <div class="preview-heading">
-
 
                     <span class="preview-label">
                         REPORT PREVIEW
                     </span>
 
-
                     <p>
                         Individual Participant Report
                     </p>
 
-
                 </div>
 
 
-
                 <p class="preview-note">
-                    Representative frontend preview. Final report formatting will be
-                    provided by the integrated report-generation process.
+                    Representative preview of the generated Individual Participant Report.
                 </p>
 
 
 
                 <div class="preview-page-container">
 
-
-                    <article class="report-page profile-page" id="report-page">
+                    <article
+                        class="report-page profile-page"
+                        id="report-page"
+                    >
 
 
                         <header class="page-top">
 
+                            <div class="report-brand">
 
-                            <div class="organisation-name">
-                                Tasmanian<br>
-                                Leaders
+                                <img
+                                    src="images/tasmanian logo.png"
+                                    alt="Tasmanian Leaders"
+                                    class="report-logo"
+                                >
+
                             </div>
 
 
-                            <div class="program-name">
-                                I-LEAD YOUNG PROFESSIONALS 2026
+                            <div
+                                class="report-cohort-year dynamic-data"
+                                id="profile-cohort-year"
+                            >
+                                COHORT_YEAR
                             </div>
-
 
                         </header>
 
 
 
-                        <div class="profile-heading">
+                        <section class="profile-heading">
 
 
                             <div class="profile-heading-text">
 
-
                                 <h2>
-                                    Your<br>
-                                    Leadership<br>
-                                    Profile
+                                    Your Leadership Profile
                                 </h2>
 
 
-
-                                <p class="dynamic-data participant-name" id="profile-participant-name">
-                                    Participant name
+                                <p
+                                    class="profile-meta-value participant-name dynamic-data"
+                                    id="profile-participant-name"
+                                >
+                                    NAME
                                 </p>
 
 
-
-                                <p class="dynamic-data">
-                                    A snapshot of your evaluation
+                                <p
+                                    class="profile-meta-value dynamic-data"
+                                    id="profile-report-type"
+                                >
+                                    REPORT_TYPE
                                 </p>
 
 
-
-                                <p class="dynamic-data" id="profile-evaluation-points">
-                                    Evaluation points (none)
+                                <p
+                                    class="profile-meta-value dynamic-data"
+                                    id="profile-evaluation-points"
+                                >
+                                    EVALUATION_POINTS
                                 </p>
 
+
+                                <p
+                                    class="profile-meta-value dynamic-data"
+                                    id="profile-benchmarks"
+                                >
+                                    BENCHMARKS_SELECTED
+                                </p>
 
                             </div>
 
-
-
-                            <div class="participant-photo">
-
-                                <span>
-                                    Participant photo<br>
-                                    (where provided)
-                                </span>
-
-                            </div>
-
-
-                        </div>
+                        </section>
 
 
 
                         <section class="profile-introduction">
 
-
                             <h3>
                                 About your results
                             </h3>
-
 
 
                             <p>
@@ -539,13 +626,11 @@
                             </p>
 
 
-
                             <p>
                                 Your results are presented alongside relevant cohort and
                                 benchmark data to provide context and support reflection
                                 on your leadership development.
                             </p>
-
 
                         </section>
 
@@ -554,136 +639,221 @@
                         <section class="leadership-summary">
 
 
-                            <!-- INSIGHT -->
-
-                            <div class="summary-card">
-
+                            <article class="summary-card insight-card">
 
                                 <span class="summary-title">
                                     INSIGHT
                                 </span>
 
-
-                                <p class="summary-heading">
-                                    Understanding yourself and your environment
-                                </p>
-
-
-                                <p class="summary-description">
-                                    Self-awareness, purpose and informed decision-making.
-                                </p>
+                                <div class="summary-score-area">
+                                    <div class="summary-score-change">
+                                        +4
+                                    </div>
 
 
-                                <strong>
-                                    --
-                                </strong>
+                                    <div class="summary-score-row">
+
+                                        <span class="summary-score">
+                                            68
+                                        </span>
+
+                                        <span class="summary-arrow">
+                                            →
+                                        </span>
+
+                                        <span class="summary-score">
+                                            72
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="summary-benchmark">
+
+                                    <span class="benchmark-label">
+                                        BENCHMARK COMPARISON
+                                    </span>
+
+                                    <strong class="benchmark-score">
+                                        70
+                                    </strong>
+
+                                </div>
 
 
-                            </div>
+                                <div class="summary-card-content">
+
+                                    <p class="summary-heading">
+                                        Understanding yourself and your environment
+                                    </p>
+
+                                    <p class="summary-description">
+                                        Self-awareness, purpose and informed decision-making.
+                                    </p>
+
+                                </div>
+
+                            </article>
 
 
 
-                            <!-- INFLUENCE -->
-
-                            <div class="summary-card">
-
+                            <article class="summary-card influence-card">
 
                                 <span class="summary-title">
                                     INFLUENCE
                                 </span>
 
+                                <div class="summary-score-area">
 
-                                <p class="summary-heading">
-                                    Working effectively with others
-                                </p>
-
-
-                                <p class="summary-description">
-                                    Collaboration, relationships and navigating complexity.
-                                </p>
+                                    <div class="summary-score-change">
+                                        +10
+                                    </div>
 
 
-                                <strong>
-                                    --
-                                </strong>
+                                    <div class="summary-score-row">
+
+                                        <span class="summary-score">
+                                            68
+                                        </span>
+
+                                        <span class="summary-arrow">
+                                            →
+                                        </span>
+
+                                        <span class="summary-score">
+                                            78
+                                        </span>
+
+                                    </div>
+
+                                </div>
 
 
-                            </div>
+                                <div class="summary-benchmark">
+
+                                    <span class="benchmark-label">
+                                        BENCHMARK COMPARISON
+                                    </span>
+
+                                    <strong class="benchmark-score">
+                                        70
+                                    </strong>
+
+                                </div>
+
+                                <div class="summary-card-content">
+
+                                    <p class="summary-heading">
+                                        Working effectively with others
+                                    </p>
+
+                                    <p class="summary-description">
+                                        Collaboration, relationships and navigating complexity.
+                                    </p>
+
+                                </div>
+
+                            </article>
 
 
 
-                            <!-- IMPACT -->
-
-                            <div class="summary-card">
-
+                            <article class="summary-card impact-card">
 
                                 <span class="summary-title">
                                     IMPACT
                                 </span>
 
+                                <div class="summary-score-area">
 
-                                <p class="summary-heading">
-                                    Making a meaningful contribution
-                                </p>
-
-
-                                <p class="summary-description">
-                                    Motivation, belonging and connection to people and place.
-                                </p>
+                                    <div class="summary-score-change">
+                                        +12
+                                    </div>
 
 
-                                <strong>
-                                    --
-                                </strong>
+                                    <div class="summary-score-row">
+
+                                        <span class="summary-score">
+                                            68
+                                        </span>
+
+                                        <span class="summary-arrow">
+                                            →
+                                        </span>
+
+                                        <span class="summary-score">
+                                            80
+                                        </span>
+
+                                    </div>
+
+                                </div>
 
 
-                            </div>
+                                <div class="summary-benchmark">
 
+                                    <span class="benchmark-label">
+                                        BENCHMARK COMPARISON
+                                    </span>
+
+                                    <strong class="benchmark-score">
+                                        74
+                                    </strong>
+
+                                </div>
+
+                                <div class="summary-card-content">
+
+                                    <p class="summary-heading">
+                                        Making a meaningful contribution
+                                    </p>
+
+                                    <p class="summary-description">
+                                        Motivation, belonging and connection to people and place.
+                                    </p>
+
+                                </div>
+
+                            </article>
 
                         </section>
 
 
 
-                        <p class="prototype-disclaimer">
-                            Illustrative data shown for prototype purposes only.
-                        </p>
+                            <footer class="page-footer">
 
+                                <div class="page-footer-left">
+                                    <span class="page-number">
+                                        01
+                                    </span>
 
+                                    <span class="dynamic-data footer-participant-name" id="profile-footer-name">
+                                        PARTICIPANT_NAME
+                                    </span>
+                                </div>
 
-                        <footer class="page-footer">
+                                <div class="report-footer-mark" aria-label="Tasmanian Leaders">
+                                    <span>T</span>
+                                    <span>L</span>
+                                </div>
 
+                            </footer>
 
-                            <span class="page-number">
-                                01
-                            </span>
-
-
-                            <span class="dynamic-data" id="profile-footer-name">
-                                PARTICIPANT NAME
-                            </span>
-
-
-                        </footer>
 
 
                     </article>
 
-
                 </div>
-
 
             </section>
 
-
         </div>
-
 
     </main>
 
 
 
     <script src="js/script.js"></script>
-
 
 </body>
 
