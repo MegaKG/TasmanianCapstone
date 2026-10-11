@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Form</title>
+</head>
+<body>
+    <h1>Report Form</h1>
+    <form action="http://localhost:8881/5-2" method="post">
+        <div>
+            <label for="report_mode">Report Mode:</label>
+            <select name="report_mode" id="report_mode">
+                <option value="individual">Individual</option>
+                <option value="batch">Batch</option>
+            </select>
+        </div>
+        <div>
+            <label for="participant">Participant:</label>
+            <input type="text" name="participant" id="participant" placeholder="Enter participant name">
+        </div>
+        <div>
+            <label for="batch_participants">Batch Participants:</label>
+            <select name="batch_participants[]" id="batch_participants" multiple>
+                <option value="participant1">Participant 1</option>
+                <option value="participant2">Participant 2</option>
+                <option value="participant3">Participant 3</option>
+                <!-- Add more options as needed -->
+            </select>
+        </div>
+        <div>
+            <label for="evaluation_points">Evaluation Points:</label>
+            <input type="text" name="evaluation_points[]" id="evaluation_points" placeholder="Enter evaluation point" value="" size="20">
+            <button type="button" onclick="addEvaluationPoint()">Add</button>
+        </div>
+        <div>
+            <label for="benchmarks">Benchmarks:</label>
+            <input type="text" name="benchmarks[]" id="benchmarks" placeholder="Enter benchmark" value="" size="20">
+            <button type="button" onclick="addBenchmark()">Add</button>
+        </div>
+        <div>
+            <input type="submit" value="Submit">
+        </div>
+    </form>
+
+    <script>
+        function addEvaluationPoint() {
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.name = 'evaluation_points[]';
+            input.id = 'evaluation_points';
+            input.placeholder = 'Enter evaluation point';
+            input.size = 20;
+            const container = document.querySelector('div input[name="evaluation_points[]"]');
+            container.parentNode.insertBefore(input, container.nextSibling);
+        }
+
+        function addBenchmark() {
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.name = 'benchmarks[]';
+            input.id = 'benchmarks';
+            input.placeholder = 'Enter benchmark';
+            input.size = 20;
+            const container = document.querySelector('div input[name="benchmarks[]"]');
+            container.parentNode.insertBefore(input, container.nextSibling);
+        }
+    </script>
+</body>
+</html>

@@ -283,4 +283,192 @@ function get_form_entries( $form_id ) {
     return $results;
 }
 
+
+/**
+ * Get simplified entry data for a form and specific entry.
+ *
+ * @param int $form_id, @param int $entry_id
+ * @return array
+ */
+function get_form_entry( $form_id, $entry_id ) {
+    $consumer_key    = $_ENV['CONSUMER_KEY'];
+    $consumer_secret = $_ENV['CONSUMER_SECRET'];
+    $base_url        = $_ENV['BASE_URL'];
+
+    $field_map = get_form_question_map( $form_id );
+
+    $url    = $base_url . '/entries/' . $entry_id;
+    $method = 'GET';
+
+    $oauth = new OAuth_Request(
+        $url,
+        $consumer_key,
+        $consumer_secret,
+        $method
+    );
+
+    $response = wp_remote_request(
+        $oauth->get_url(),
+        [
+            'method' => $method,
+        ]
+    );
+
+    if (
+        is_wp_error( $response ) ||
+        wp_remote_retrieve_response_code( $response ) !== 200
+    ) {
+        return null;
+    }
+
+    $entry = json_decode(
+        wp_remote_retrieve_body( $response ),
+        true
+    );
+
+    $answers = [];
+
+    foreach ( $field_map as $field_id => $field ) {
+
+        // Multi-input fields (Name, Survey, Likert, etc.)
+        if ( ! empty( $field['inputs'] ) ) {
+
+            foreach ( $field['inputs'] as $input ) {
+
+                $input_id = (string) $input['id'];
+
+                if (
+                    ! isset( $entry[ $input_id ] ) ||
+                    $entry[ $input_id ] === ''
+                ) {
+                    continue;
+                }
+
+                $value = $entry[ $input_id ];
+
+                if ( strpos( $value, ':' ) !== false ) {
+
+                    list(
+                        $row_id,
+                        $choice_id
+                    ) = explode(
+                        ':',
+                        $value,
+                        2
+                    );
+
+                    $question_text =
+                        $field['rows'][ $row_id ]
+                        ?? $input['label'];
+
+                    $answer_text =
+                        $field['choices'][ $choice_id ]
+                        ?? $choice_id;
+
+                    $answers[ $question_text ] = $answer_text;
+
+                } else {
+
+                    $answers[ $input['label'] ] = $value;
+                }
+            }
+
+        } else {
+
+            $field_key = (string) $field_id;
+
+            if (
+                ! isset( $entry[ $field_key ] ) ||
+                $entry[ $field_key ] === ''
+            ) {
+                continue;
+            }
+
+            $value = $entry[ $field_key ];
+
+            if ( isset( $field['choices'][ $value ] ) ) {
+                $value = $field['choices'][ $value ];
+            }
+
+            $answers[ $field['label'] ] = $value;
+        }
+    }
+
+    return [
+        'id'           => $entry['id'],
+        'date_created' => $entry['date_created'],
+        'answers'      => $answers,
+    ];
+}
+
+/**
+ * Get all Gravity Forms participant names and entry IDs.
+ * @param int $form_id, @param string $firstNameField, @param string $lastNameField
+ * @return array
+ */
+
+function get_form_entry_names( $form_id, $firstNameField, $lastNameField ) {
+    $consumer_key    = $_ENV['CONSUMER_KEY'];
+    $consumer_secret = $_ENV['CONSUMER_SECRET'];
+    $base_url        = $_ENV['BASE_URL'];
+
+    $url = $base_url
+        . '/forms/' . $form_id
+        . '/entries';
+
+    $method = 'GET';
+
+
+    $oauth = new OAuth_Request(
+        $url,
+        $consumer_key,
+        $consumer_secret,
+        'GET',
+        [
+            '_field_ids' => implode(',', [
+                'id',
+                'form_id',
+                $firstNameField,
+                $lastNameField,
+            ]),
+        ]
+    );
+
+    //error_log(print_r($oauth->get_url(), true));
+    $response = wp_remote_request(
+        $oauth->get_url(),
+        [
+            'method' => $method,
+        ]
+    );
+    
+    if ( 
+        is_wp_error( $response ) ||
+        wp_remote_retrieve_response_code( $response ) !== 200
+    ) {
+        error_log(print_r($response, true));
+        return [];
+    }
+    
+
+    $data = json_decode(
+        wp_remote_retrieve_body( $response ),
+        true
+    );
+
+    $results = [];
+
+    foreach ( $data['entries'] as $entry ) {
+        $results[] = [
+            'id'      => (int) $entry['id'],
+            'form_id' => (int) $entry['form_id'],
+            'name'    => trim(
+                ( $entry['52.3'] ?? '' ) . ' ' .
+                ( $entry['52.6'] ?? '' )
+            ),
+        ];
+    }
+
+    return $results;
+}
 ?>
