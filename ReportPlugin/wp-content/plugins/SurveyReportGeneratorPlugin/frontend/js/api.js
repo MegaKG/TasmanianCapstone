@@ -30,13 +30,15 @@ const ParticipantAPI = (() => {
 
     // Retrieve participant records.
     async function getParticipants() {
+        const endpoint = "/5-2/?query=participants"
+        
+        const response = await fetch(endpoint);
 
-        // Return a copy to avoid accidental changes
-        // to the original fixture.
-        return mockParticipants.map(participant => ({
-            ...participant
-        }));
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
 
+        return await response.json();
     }
 
     // Expose functions to script.js.
