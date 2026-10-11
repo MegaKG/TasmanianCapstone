@@ -1124,3 +1124,7 @@ body.square-ui .participant-inline-editor {
         font-size: 13px;
     }
 }
+/* Temporarily hide database connection placeholder */
+.field.database-source-placeholder {
+    display: none !important;
+}
