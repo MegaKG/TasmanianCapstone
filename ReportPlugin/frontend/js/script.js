@@ -41,6 +41,52 @@ const evaluationDisclaimer =
 const benchmarkBoxes =
     document.querySelectorAll(".benchmark-checkbox");
 
+let availableBenchmarks = [];
+
+async function loadBenchmarks() {
+    try {
+        availableBenchmarks = await BenchmarkAPI.getBenchmarks();
+
+        if (!Array.isArray(availableBenchmarks)) {
+            throw new Error("Invalid benchmark data");
+        }
+
+        benchmarkBoxes.forEach(function (checkbox) {
+            if (checkbox.value === "None") {
+                return;
+            }
+
+            const benchmark = availableBenchmarks.find(
+                item => item.value === checkbox.value
+            );
+
+            const label = checkbox.closest("label");
+
+            if (!benchmark) {
+                checkbox.disabled = true;
+                return;
+            }
+
+            checkbox.disabled = false;
+
+            if (label) {
+                const text = label.querySelector("span");
+
+                if (text) {
+                    text.textContent = benchmark.name;
+                }
+            }
+        });
+
+        updateBenchmarks();
+
+    } catch (error) {
+        console.error("Unable to load benchmarks:", error);
+        showMessage("Unable to load benchmark options.", "error");
+    }
+}
+
+
 const benchmarkText =
     document.getElementById("benchmark-selected");
 
@@ -87,6 +133,59 @@ let editingName = false;
 let reportMode = "individual";
 
 let selectedParticipants = [];
+
+// Participant records returned by the data service.
+let availableParticipants = [];
+let selectedParticipantId = null;
+
+// Load temporary participant data on page startup.
+// Keep the existing Excel upload handler available as a fallback.
+async function loadParticipants() {
+    try {
+        participantText.textContent = "Loading participants...";
+        const participants = await ParticipantAPI.getParticipants();
+        if (!Array.isArray(participants)) {
+            throw new Error("Invalid participant data");
+        }
+        const ids = new Set();
+        for (const participant of participants) {
+            if (!participant || participant.id == null ||
+                !String(participant.name || "").trim() ||
+                ids.has(String(participant.id))) {
+                throw new Error("Invalid or duplicate participant record");
+            }
+            ids.add(String(participant.id));
+        }
+        availableParticipants = participants.map(participant => ({
+            id: String(participant.id),
+            name: String(participant.name).trim()
+        }));
+        resetParticipantSelection();
+        selectedParticipantId = null;
+        selectedParticipants = [];
+
+        // Dropdowns now use IDs internally and names for display.
+        showParticipants(availableParticipants);
+        showBatchParticipants(availableParticipants);
+        updateBatchParticipantDisplay();
+
+        if (participants.length === 0) {
+            participantText.textContent = "No participants available";
+        }
+        clearMessage();
+    } catch (error) {
+        console.error("Unable to load participants:", error);
+        availableParticipants = [];
+        resetParticipantSelection();
+        selectedParticipantId = null;
+        selectedParticipants = [];
+        showParticipants([]);
+        showBatchParticipants([]);
+        updateBatchParticipantDisplay();
+        showMessage("Unable to load participant records.", "error");
+    }
+}
+
 
 
 // Read the uploaded spreadsheet and populate participant lists.
@@ -175,13 +274,16 @@ excelFile.addEventListener("change", function () {
                 return;
             }
 
+            // Legacy Excel fallback: assign temporary IDs to names.
+            // These IDs are local only, not Gravity Forms entry IDs.
+            availableParticipants = names.map((name, index) => ({
+                id: `excel-${index + 1}`,
+                name
+            }));
             resetParticipantSelection();
-
-            showParticipants(names);
-
             selectedParticipants = [];
-
-            showBatchParticipants(names);
+            showParticipants(availableParticipants);
+            showBatchParticipants(availableParticipants);
 
             updateBatchParticipantDisplay();
 
@@ -212,6 +314,7 @@ excelFile.addEventListener("change", function () {
 function resetParticipantSelection() {
 
     selectedParticipant = "";
+    selectedParticipantId = null;
 
     displayName = "";
 
@@ -229,14 +332,15 @@ function resetParticipantSelection() {
 
 // Populate the individual participant dropdown.
 
-function showParticipants(names) {
+function showParticipants(participants) {
 
     participantMenu.innerHTML =
         '<div class="dropdown-heading">Select Participant</div>';
 
     // Create a selectable option for each participant.
 
-    names.forEach(function (name) {
+    participants.forEach(function (participant) {
+        const name = participant.name;
 
         const option =
             document.createElement("div");
@@ -251,8 +355,8 @@ function showParticipants(names) {
             "click",
             function () {
 
-                selectedParticipant =
-                    name;
+                selectedParticipant = name;
+                selectedParticipantId = String(participant.id);
 
                 displayName =
                     name;
@@ -549,7 +653,7 @@ function updateReportMode() {
 
 // Populate the batch participant dropdown.
 
-function showBatchParticipants(names) {
+function showBatchParticipants(participants) {
 
     if (!batchParticipantMenu) {
         return;
@@ -593,7 +697,8 @@ function showBatchParticipants(names) {
 
     // Add one selectable checkbox for each participant.
 
-    names.forEach(function (name) {
+    participants.forEach(function (participant) {
+        const name = participant.name;
 
         const label =
             document.createElement("label");
@@ -610,8 +715,7 @@ function showBatchParticipants(names) {
         checkbox.className =
             "batch-participant-checkbox";
 
-        checkbox.value =
-            name;
+        checkbox.value = String(participant.id);
 
         const text =
             document.createElement("span");
@@ -1248,8 +1352,14 @@ generateButton.addEventListener(
                     i++
                 ) {
 
-                    const participant =
-                        selectedParticipants[i];
+                    const participantId = selectedParticipants[i];
+                    const participantRecord = availableParticipants.find(
+                        record => String(record.id) === participantId
+                    );
+                    if (!participantRecord) {
+                        throw new Error(`Participant not found: ${participantId}`);
+                    }
+                    const participant = participantRecord.name;
 
                     previewName.textContent =
                         participant;
@@ -1681,3 +1791,7 @@ updateReportMode();
 updateEvaluation();
 
 updateBenchmarks();
+
+loadParticipants();
+
+loadBenchmarks();
