@@ -61,4 +61,15 @@ add_shortcode('env_test', function () {
 });
 
 
+
+// Handle form submission, use submodule
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    report_handle_form_submission();
+}
+
+// Accept Get as well for queries
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    report_handle_query();
+}
+
 ?>
