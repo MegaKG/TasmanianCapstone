@@ -65,3 +65,21 @@ Mock data and prototype report-generation behaviour can be replaced during integ
 - Final UX/frontend integration pending backend completion and merge.
 - Final report visuals require client review and sign-off.
 - V3 report prototype still to be completed/finalised.
+
+## Recent Development Updates 11/10/26
+
+- Added `api.js` to manage sample participant and benchmark data.
+- Updated `script.js` to dynamically load participants and benchmarks.
+- Added unique participant IDs for individual and batch selection.
+- Preserved report preview and PDF generation functionality.
+- Consolidated `script-dynamic.js` into `script.js`.
+- Tested and pushed changes to GitHub.
+
+## Developer Handover Notes
+
+- `frontend/js/api.js` – Participant and benchmark data services.
+- `frontend/js/script.js` – Frontend interactions, selections and PDF generation.
+- `frontend/index.html` – Report interface; loads `api.js` before `script.js`.
+- `mock-participants.xlsx` – Reference sample participant data.
+
+**Pending integration:** Replace sample data with real Gravity Forms data, connect evaluation scores and benchmarks, and integrate final report generation.
