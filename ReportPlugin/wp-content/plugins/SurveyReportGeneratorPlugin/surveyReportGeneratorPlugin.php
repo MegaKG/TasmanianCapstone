@@ -57,6 +57,9 @@ add_shortcode('env_test', function () {
     $consumer_secret = $_ENV['CONSUMER_SECRET'];
     $base_url = $_ENV['BASE_URL'];
 
+    //error_log(print_r("3 month output:", true));
+    //error_log(print_r(get_3month_response_for('Jody', 'Maurer'), true));
+
     return '<br>Key: ' . $consumer_key . '<br>Secret: ' . $consumer_secret . '<br>Base URL: ' . $base_url;
 });
 

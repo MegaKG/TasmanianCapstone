@@ -11,7 +11,7 @@ require_once __DIR__ . '/gravityforms-uplink.php';
 
 // Handle query request
 function report_handle_query() {
-    error_log(print_r("Query Handler was called query=".$_GET['query'], true));
+    error_log(print_r("Query Handler was called query is ".$_GET['query'], true));
     // Get the mode of submission - if it is a query, then we handle like an API
     if (isset($_GET['query'])){
         // Get the query type

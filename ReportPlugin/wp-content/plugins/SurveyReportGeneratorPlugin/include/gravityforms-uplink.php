@@ -170,6 +170,8 @@ function get_form_entries( $form_id, $filters = [] ) {
 
     $url    = $base_url . '/forms/' . $form_id . '/entries';
     // If a filter is provided, we append it to the URL
+    $query_args = [];
+
     if ( ! empty( $filters ) ) {
 
         $search = [
@@ -183,17 +185,17 @@ function get_form_entries( $form_id, $filters = [] ) {
             ];
         }
 
-        $url = $url . '?search=' . rawurlencode(
-            wp_json_encode( $search )
-        );
+        $query_args['search'] = wp_json_encode( $search );
     }
+
     $method = 'GET';
 
     $oauth = new OAuth_Request(
         $url,
         $consumer_key,
         $consumer_secret,
-        $method
+        $method,
+        $query_args
     );
 
     $response = wp_remote_request(
@@ -202,6 +204,8 @@ function get_form_entries( $form_id, $filters = [] ) {
             'method' => $method,
         ]
     );
+
+    //error_log(print_r($response, true));
 
     if (
         is_wp_error( $response ) ||
