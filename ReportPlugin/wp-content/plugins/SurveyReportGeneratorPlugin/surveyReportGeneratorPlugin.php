@@ -21,6 +21,30 @@ require_once __DIR__ . '/include/gravityforms-uplink.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load(); 
 
+// Add redirect for static page http://localhost:8881/survey-report
+add_action('init', function () {
+    add_rewrite_rule(
+        '^survey-report/?$',
+        'index.php?survey_report=1',
+        'top'
+    );
+});
+
+add_filter('query_vars', function ($vars) {
+    $vars[] = 'survey_report';
+    return $vars;
+});
+
+add_action('template_redirect', function () {
+    if (get_query_var('survey_report')) {
+        wp_redirect(
+            plugins_url('frontend/index.html', __FILE__),
+            302
+        );
+        exit;
+    }
+});
+
 // Test Function
 add_shortcode('env_test', function () {
     // Test the query
@@ -36,5 +60,16 @@ add_shortcode('env_test', function () {
     return '<br>Key: ' . $consumer_key . '<br>Secret: ' . $consumer_secret . '<br>Base URL: ' . $base_url;
 });
 
+
+
+// Handle form submission, use submodule
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    report_handle_form_submission();
+}
+
+// Accept Get as well for queries
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    report_handle_query();
+}
 
 ?>
