@@ -7,26 +7,6 @@
 
 const ParticipantAPI = (() => {
 
-    // Temporary participant records for testing.
-    // These are NOT real Gravity Forms entries.
-    const mockParticipants = [
-        {
-            id: "101",
-            name: "Satyam"
-        },
-        {
-            id: "102",
-            name: "Kaelan"
-        },
-        {
-            id: "103",
-            name: "Minji"
-        },
-        {
-            id: "104",
-            name: "Rashad"
-        }
-    ];
 
     // Retrieve participant records.
     async function getParticipants() {

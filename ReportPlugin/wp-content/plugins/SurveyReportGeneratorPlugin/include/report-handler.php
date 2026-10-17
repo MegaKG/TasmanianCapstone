@@ -19,7 +19,10 @@ function report_handle_query() {
 
         if ($query_type === 'participants') {
             // Get the participant list
-            $participants = get_form_entry_names(43, '52.3', '52.6');
+            $participants = get_form_entry_names(
+                $_ENV['FORM_ID_GET_PARTICIPANTS'], 
+                $_ENV['FORM_GET_PARTICIPANT_FIRST_NAME_FIELD'],
+                $_ENV['FORM_GET_PARTICIPANT_LAST_NAME_FIELD']);
             // Return the participant list
             error_log(print_r($participants, true));
             wp_send_json($participants);
