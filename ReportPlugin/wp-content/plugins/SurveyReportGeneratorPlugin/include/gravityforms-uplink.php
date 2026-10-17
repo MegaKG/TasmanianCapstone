@@ -158,10 +158,10 @@ function get_form_question_map( $form_id ) {
 /**
  * Get simplified entry data for a form.
  *
- * @param int $form_id
+ * @param int $form_id, 
  * @return array
  */
-function get_form_entries( $form_id ) {
+function get_form_entries( $form_id, $filters = [] ) {
     $consumer_key = $_ENV['CONSUMER_KEY'];
     $consumer_secret = $_ENV['CONSUMER_SECRET'];
     $base_url = $_ENV['BASE_URL'];
@@ -169,6 +169,24 @@ function get_form_entries( $form_id ) {
     $field_map = get_form_question_map( $form_id );
 
     $url    = $base_url . '/forms/' . $form_id . '/entries';
+    // If a filter is provided, we append it to the URL
+    if ( ! empty( $filters ) ) {
+
+        $search = [
+            'field_filters' => [],
+        ];
+
+        foreach ( $filters as $field_id => $value ) {
+            $search['field_filters'][] = [
+                'key'   => (string) $field_id,
+                'value' => $value,
+            ];
+        }
+
+        $url = $url . '?search=' . rawurlencode(
+            wp_json_encode( $search )
+        );
+    }
     $method = 'GET';
 
     $oauth = new OAuth_Request(
@@ -471,4 +489,73 @@ function get_form_entry_names( $form_id, $firstNameField, $lastNameField ) {
 
     return $results;
 }
+
+/*
+ * Get a form response for a given participant
+ * @param string $firstName, @param string $lastName
+ * @return array
+*/
+function get_preprogram_response_for(string $firstName,string $lastName): ?array {
+
+    $entries = get_form_entries(
+        $_ENV['FORM_ID_PREPROGRAM_SURVEY'],
+        [
+            $_ENV['FORM_PREPROGRAM_SURVEY_FIRST_NAME_FIELD'] => $firstName,
+            $_ENV['FORM_PREPROGRAM_SURVEY_LAST_NAME_FIELD']  => $lastName,
+        ]
+    );
+
+    if (
+        ! is_array( $entries ) ||
+        empty( $entries ) ||
+        ! isset( $entries[0] )
+    ) {
+        return null;
+    }
+
+    return $entries[0];
+}
+
+function get_completion_response_for(string $firstName,string $lastName): ?array {
+
+    $entries = get_form_entries(
+        $_ENV['FORM_ID_COMPLETION_SURVEY'],
+        [
+            $_ENV['FORM_COMPLETION_SURVEY_FIRST_NAME_FIELD'] => $firstName,
+            $_ENV['FORM_COMPLETION_SURVEY_LAST_NAME_FIELD']  => $lastName,
+        ]
+    );
+
+    if (
+        ! is_array( $entries ) ||
+        empty( $entries ) ||
+        ! isset( $entries[0] )
+    ) {
+        return null;
+    }
+
+    return $entries[0];
+}
+
+function get_3month_response_for(string $firstName,string $lastName): ?array {
+
+    $entries = get_form_entries(
+        $_ENV['FORM_ID_3_MONTH_DELAYED_SURVEY'],
+        [
+            $_ENV['FORM_3_MONTH_DELAYED_SURVEY_FIRST_NAME_FIELD'] => $firstName,
+            $_ENV['FORM_3_MONTH_DELAYED_SURVEY_LAST_NAME_FIELD']  => $lastName,
+        ]
+    );
+
+    if (
+        ! is_array( $entries ) ||
+        empty( $entries ) ||
+        ! isset( $entries[0] )
+    ) {
+        return null;
+    }
+
+    return $entries[0];
+}
+
 ?>
