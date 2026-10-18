@@ -1264,6 +1264,45 @@ function updateBenchmarks() {
 
 }
 
+// Capture the report for PDF without changing the visible preview.
+async function captureReportForPDF() {
+    if (!reportPage) {
+        throw new Error("Report preview element not found.");
+    }
+
+    const captureWidth = 794;
+
+    return await html2canvas(reportPage, {
+        scale: 2,
+        backgroundColor: "#ffffff",
+        useCORS: true,
+        windowWidth: Math.max(1200, window.innerWidth),
+        scrollX: 0,
+        scrollY: -window.scrollY,
+
+        onclone: function (clonedDocument) {
+            const clonedReport =
+                clonedDocument.getElementById("report-page");
+
+            if (!clonedReport) {
+                return;
+            }
+
+            // Apply changes only to the cloned report.
+            clonedReport.style.width = captureWidth + "px";
+            clonedReport.style.minWidth = captureWidth + "px";
+            clonedReport.style.maxWidth = captureWidth + "px";
+            clonedReport.style.boxSizing = "border-box";
+
+            // Remove any scale transformation from the clone.
+            clonedReport.style.transform = "none";
+
+            // Ensure the report is not clipped.
+            clonedReport.style.overflow = "visible";
+        }
+    });
+}
+
 
 generateButton.addEventListener(
     "click",
@@ -1383,15 +1422,7 @@ generateButton.addEventListener(
                         }
                     );
 
-                    const canvas =
-                        await html2canvas(
-                            reportPage,
-                            {
-                                scale: 2,
-                                backgroundColor:
-                                    "#ffffff"
-                            }
-                        );
+                    const canvas = await captureReportForPDF();
 
                     const image =
                         canvas.toDataURL(
@@ -1492,6 +1523,10 @@ generateButton.addEventListener(
                         ||
                         `participant-${i + 1}`;
 
+                    await PDFGraphIntegration.addGraphsToPDF(
+                        pdf,
+                        evaluations
+                    );
                     pdf.save(
                         `${safeName}-Individual-Participant-Report-Prototype.pdf`
                     );
@@ -1573,15 +1608,7 @@ generateButton.addEventListener(
 
             }
 
-            const canvas =
-                await html2canvas(
-                    reportPage,
-                    {
-                        scale: 2,
-                        backgroundColor:
-                            "#ffffff"
-                    }
-                );
+            const canvas = await captureReportForPDF();
 
             const { jsPDF } =
                 window.jspdf;
@@ -1682,6 +1709,10 @@ generateButton.addEventListener(
                 ||
                 "participant";
 
+            await PDFGraphIntegration.addGraphsToPDF(
+                pdf,
+                evaluations
+            );
             pdf.save(
                 `${safeName}-Individual-Participant-Report-Prototype.pdf`
             );
