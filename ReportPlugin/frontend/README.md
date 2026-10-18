@@ -83,3 +83,21 @@ Mock data and prototype report-generation behaviour can be replaced during integ
 - `mock-participants.xlsx` – Reference sample participant data.
 
 **Pending integration:** Replace sample data with real Gravity Forms data, connect evaluation scores and benchmarks, and integrate final report generation.
+
+## Recent Development Updates 18/10/26
+
+- Merged `feature-reportGraphs` into `feature/individual-report-frontend`.
+- Added `pdfGraphIntegration.js` to manage graph images in generated PDF reports.
+- Integrated four existing graphs: Insight Initial, Insight Delayed, Self-Awareness Comparison and Influence Comparison.
+- Updated `index.html` to load `pdfGraphIntegration.js`.
+- Updated `script.js` to include graph images in individual and batch PDF generation.
+- Fixed PDF formatting issues caused by the report preview being compressed during export.
+- Preserved existing participant selection, evaluation-point selection, benchmark selection and report preview functionality.
+- Tested PDF generation using the integrated graph images.
+
+The integrated graphs currently use sample data. Final scoring calculations and dynamic graph generation remain dependent on backend integration.
+
+## Developer Handover Notes – Additional Files
+
+- `frontend/js/pdfGraphIntegration.js` – Loads graph images and adds them to generated PDF reports.
+- `report-graphs/output/` – Contains the four sample graph images used in PDF generation.
