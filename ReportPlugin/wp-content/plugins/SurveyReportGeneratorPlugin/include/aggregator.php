@@ -19,6 +19,19 @@ function getLikertValue($answers, $question, $likert_mapping) {
     return $answer !== null ? ($likert_mapping[$answer] ?? null) : null;
 }
 
+// Function to do weighted average
+function calculateWeightedAverage($values, $weights) {
+    $sum = 0;
+    $sumWeights = 0;
+
+    foreach ($values as $index => $value) {
+        $sum += $value * $weights[$index];
+        $sumWeights += $weights[$index];
+    }
+
+    return $sum / $sumWeights;
+}
+
 function calculateInsightValuesFor($answers) {
     global $likert_mapping;
 
