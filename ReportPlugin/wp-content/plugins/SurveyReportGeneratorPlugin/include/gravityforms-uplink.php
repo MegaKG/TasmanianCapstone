@@ -488,6 +488,8 @@ function get_form_entry_names( $form_id, $firstNameField, $lastNameField ) {
                 ( $entry['52.3'] ?? '' ) . ' ' .
                 ( $entry['52.6'] ?? '' )
             ),
+            'first_name' => $entry['52.3'],
+            'last_name' => $entry['52.6']
         ];
     }
 

@@ -21,6 +21,12 @@ require_once __DIR__ . '/include/gravityforms-uplink.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load(); 
 
+// Register the setup script
+register_activation_hook(
+    __FILE__,
+    'survey_cache_install'
+);
+
 // Add redirect for static page http://localhost:8881/survey-report
 add_action('init', function () {
     add_rewrite_rule(
