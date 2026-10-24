@@ -46,6 +46,11 @@ wp-config.php
 # Note: If you wish to whitelist themes,
 # uncomment the next line
 #/wp-content/themes
+# Node.js dependencies
+
+node_modules/
+**/node_modules/
+**/report-graphs/output/
 
 # Node dependencies
 node_modules/
