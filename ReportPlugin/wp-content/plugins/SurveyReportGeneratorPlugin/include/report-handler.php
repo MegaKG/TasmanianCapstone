@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'evaluation_points' => $evaluation_points,
             'benchmarks' => $benchmarks,
             'excel_file' => $excel_file,
-            ],    
-    , true));
+            ],
+     true));
 
 }
