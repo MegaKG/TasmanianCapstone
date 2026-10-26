@@ -1349,6 +1349,13 @@ async function captureReportForPDF() {
             if (!clonedReport) {
                 return;
             }
+            
+            // TEMPORARY TEST: Remove images from PDF capture
+            // to check whether an image is causing the CORS error.
+            clonedReport.querySelectorAll("img").forEach(function (img) {
+                img.remove();
+            });
+
 
             // Apply changes only to the cloned report.
             clonedReport.style.width = captureWidth + "px";
@@ -1589,8 +1596,7 @@ generateButton.addEventListener(
                         pdf,
                         evaluations
                     );
-                    // Display the completed PDF in the frontend.
-                    showPDFPreview(pdf);
+                    
                     pdf.save(
                         `${safeName}-Individual-Participant-Report-Prototype.pdf`
                     );
@@ -1777,7 +1783,11 @@ generateButton.addEventListener(
                 pdf,
                 evaluations
             );
-            pdf.save(
+            // Show the generated PDF in the preview
+            showPDFPreview(pdf);
+            // Store the generated PDF for downloading later.
+            window.currentGeneratedPDF = pdf;
+            window.currentGeneratedPDFName =
                 `${safeName}-Individual-Participant-Report-Prototype.pdf`
             );
 
