@@ -17,6 +17,7 @@ function report_handle_query() {
         // Get the query type
         $query_type = $_GET['query'];
 
+        // List of Participants
         if ($query_type === 'participants') {
             // Get the participant list
             $participants = get_form_entry_names(
@@ -27,6 +28,8 @@ function report_handle_query() {
             error_log(print_r($participants, true));
             wp_send_json($participants);
         }
+
+
 
     }
 }
