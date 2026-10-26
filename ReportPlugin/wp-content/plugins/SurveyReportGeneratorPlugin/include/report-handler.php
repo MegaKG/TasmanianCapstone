@@ -9,6 +9,9 @@ Handles the received webform data from the plugin frontend, and performs the req
 // Include the gravityforms-uplink code
 require_once __DIR__ . '/gravityforms-uplink.php';
 
+// Include the aggregator too
+require_once __DIR__ . '/aggregator.php';
+
 // Handle query request
 function report_handle_query() {
     //error_log(print_r("Query Handler was called query is ".$_GET['query'], true));
@@ -27,6 +30,35 @@ function report_handle_query() {
             // Return the participant list
             error_log(print_r($participants, true));
             wp_send_json($participants);
+        }
+
+        // Get the Insight values for a given person and report
+        if ($query_type === 'data') {
+            $answer = [];
+            if ($_GET['report'] === 'preprogram') {
+                // Get Preprogram
+                $answer = get_preprogram_response_for($_GET['first_name'], $_GET['last_name']);
+            }
+
+            if ($_GET['report'] === 'completion') {
+                // Get Completion
+                $answer = get_completion_response_for($_GET['first_name'], $_GET['last_name']);
+            }
+
+            if ($_GET['report'] === 'delayed') {
+                // Get Delayed
+                $answer = get_delayed_response_for($_GET['first_name'], $_GET['last_name']);
+            }
+
+            // prepare array to return
+            $response = [
+                'Insight' => calculateInsightValuesFor($answer),
+                'Influence' => calculateInfluenceValuesFor($answer),
+                'Impact' => calculateImpactValuesFor($answer)
+            ];
+
+            // Reply with the answer
+            wp_send_json($response);
         }
 
 
