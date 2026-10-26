@@ -596,6 +596,95 @@ reportModeInputs.forEach(
 );
 
 
+/* Client requested Initial and Final report types */
+
+const reportTypeInputs =
+    document.querySelectorAll('input[name="report-type"]');
+
+function getReportType() {
+    return document.querySelector(
+        'input[name="report-type"]:checked'
+    )?.value || "initial";
+}
+
+function updateReportType() {
+    const type = getReportType();
+    const isFinal = type === "final";
+
+    // Automatically select the correct evaluation points.
+    const requiredEvaluations = isFinal
+        ? ["Initial", "Final", "Delayed"]
+        : ["Initial"];
+
+    evaluationBoxes.forEach(function (checkbox) {
+        checkbox.checked =
+            requiredEvaluations.includes(checkbox.value);
+
+        checkbox.disabled = true;
+    });
+
+    updateEvaluation();
+
+    // Update the evaluation help message.
+    if (evaluationDisclaimer) {
+        evaluationDisclaimer.textContent = isFinal
+            ? "Comparing Initial, Post-program and Delayed evaluations."
+            : "Showing the Initial evaluation results.";
+    }
+
+    // Final Reports must not contain benchmarks.
+    benchmarkBoxes.forEach(function (checkbox) {
+        if (isFinal) {
+            checkbox.checked = checkbox.value === "None";
+        }
+
+        checkbox.disabled = isFinal;
+    });
+
+    updateBenchmarks();
+
+    const benchmarkField =
+        benchmarkBoxes[0]?.closest(".field");
+
+    if (benchmarkField) {
+        benchmarkField.hidden = isFinal;
+    }
+
+    // Hide benchmark results when none are selected.
+    const showBenchmark = !isFinal &&
+        getBenchmarks().length > 0;
+
+    document.querySelectorAll(".summary-benchmark")
+        .forEach(function (element) {
+            element.hidden = !showBenchmark;
+        });
+
+    if (previewBenchmarks) {
+        previewBenchmarks.hidden = isFinal;
+    }
+
+    // Update report heading.
+    if (previewReportType) {
+        previewReportType.textContent = isFinal
+            ? "Final Leadership Report"
+            : "Initial Leadership Report";
+    }
+
+    const help = document.getElementById("report-type-help");
+
+    if (help) {
+        help.textContent = isFinal
+            ? "Compare leadership development across three evaluation points."
+            : "View initial strengths, development opportunities and optional benchmarks.";
+    }
+}
+
+reportTypeInputs.forEach(function (input) {
+    input.addEventListener("change", updateReportType);
+});
+
+
+
 // Show controls for the currently selected report mode.
 
 function updateReportMode() {
@@ -1415,10 +1504,7 @@ generateButton.addEventListener(
             return;
         }
 
-        if (
-            evaluations.length > 2
-        ) {
-
+       if (evaluations.length > (getReportType() === "final" ? 3 : 1)) {
             showMessage(
                 "Please select a maximum of two evaluation points.",
                 "error"
@@ -1896,6 +1982,8 @@ updateReportMode();
 updateEvaluation();
 
 updateBenchmarks();
+
+updateReportType();
 
 loadParticipants();
 
