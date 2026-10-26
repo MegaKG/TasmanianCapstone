@@ -1338,6 +1338,7 @@ async function captureReportForPDF() {
         scale: 2,
         backgroundColor: "#ffffff",
         useCORS: true,
+        allowTaint: false,
         windowWidth: Math.max(1200, window.innerWidth),
         scrollX: 0,
         scrollY: -window.scrollY,
@@ -1350,11 +1351,7 @@ async function captureReportForPDF() {
                 return;
             }
             
-            // TEMPORARY TEST: Remove images from PDF capture
-            // to check whether an image is causing the CORS error.
-            clonedReport.querySelectorAll("img").forEach(function (img) {
-                img.remove();
-            });
+
 
 
             // Apply changes only to the cloned report.
@@ -1788,8 +1785,11 @@ generateButton.addEventListener(
             // Store the generated PDF for downloading later.
             window.currentGeneratedPDF = pdf;
             window.currentGeneratedPDFName =
-                `${safeName}-Individual-Participant-Report-Prototype.pdf`
-            );
+                `${safeName}-Individual-Participant-Report-Prototype.pdf`;
+            
+            // Show the download button
+            document.getElementById("download-pdf-button").hidden = false;
+        
 
             if (
                 evaluations.length === 1
@@ -1900,3 +1900,13 @@ updateBenchmarks();
 loadParticipants();
 
 loadBenchmarks();
+
+
+document.getElementById("download-pdf-button")
+    .addEventListener("click", function () {
+        if (window.currentGeneratedPDF) {
+            window.currentGeneratedPDF.save(
+                window.currentGeneratedPDFName
+            );
+        }
+    });
