@@ -1327,6 +1327,7 @@ function showPDFPreview(pdf) {
 
 // Capture the report for PDF without changing the visible preview.
 async function captureReportForPDF() {
+     prepareReportCapture();
     if (!reportPage) {
         throw new Error("Report preview element not found.");
     }
@@ -1588,6 +1589,8 @@ generateButton.addEventListener(
                         pdf,
                         evaluations
                     );
+                    // Display the completed PDF in the frontend.
+                    showPDFPreview(pdf);
                     pdf.save(
                         `${safeName}-Individual-Participant-Report-Prototype.pdf`
                     );
