@@ -1264,6 +1264,67 @@ function updateBenchmarks() {
 
 }
 
+let currentPDFPreviewURL = null;
+
+function prepareReportCapture() {
+    const htmlPreview = document.querySelector(
+        ".preview-page-container"
+    );
+
+    if (htmlPreview) {
+        htmlPreview.style.display = "";
+    }
+
+    const pdfFrame = document.getElementById(
+        "pdf-report-preview-frame"
+    );
+
+    if (pdfFrame) {
+        pdfFrame.style.display = "none";
+    }
+}
+
+function showPDFPreview(pdf) {
+    const htmlPreview = document.querySelector(
+        ".preview-page-container"
+    );
+
+    if (!htmlPreview) {
+        throw new Error("Report preview container not found.");
+    }
+
+    let pdfFrame = document.getElementById(
+        "pdf-report-preview-frame"
+    );
+
+    if (!pdfFrame) {
+        pdfFrame = document.createElement("iframe");
+        pdfFrame.id = "pdf-report-preview-frame";
+        pdfFrame.title = "Generated PDF Report Preview";
+        pdfFrame.style.width = "100%";
+        pdfFrame.style.height = "700px";
+        pdfFrame.style.border = "none";
+
+        htmlPreview.insertAdjacentElement(
+            "afterend",
+            pdfFrame
+        );
+    }
+
+    const pdfBlob = pdf.output("blob");
+    const newURL = URL.createObjectURL(pdfBlob);
+
+    pdfFrame.src = newURL;
+    pdfFrame.style.display = "block";
+    htmlPreview.style.display = "none";
+
+    if (currentPDFPreviewURL) {
+        URL.revokeObjectURL(currentPDFPreviewURL);
+    }
+
+    currentPDFPreviewURL = newURL;
+}
+
 // Capture the report for PDF without changing the visible preview.
 async function captureReportForPDF() {
     if (!reportPage) {
