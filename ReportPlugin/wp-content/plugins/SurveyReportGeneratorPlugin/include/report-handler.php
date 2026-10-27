@@ -77,8 +77,8 @@ function report_handle_form_submission() {
             'batch_participants' => $batch_participants,
             'evaluation_points' => $evaluation_points,
             'benchmarks' => $benchmarks,
-            'excel_file' => $excel_file,
+
             ],
-    , true));
+     true));
 
 }
