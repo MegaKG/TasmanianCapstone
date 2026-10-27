@@ -65,3 +65,39 @@ Mock data and prototype report-generation behaviour can be replaced during integ
 - Final UX/frontend integration pending backend completion and merge.
 - Final report visuals require client review and sign-off.
 - V3 report prototype still to be completed/finalised.
+
+## Recent Development Updates 11/10/26
+
+- Added `api.js` to manage sample participant and benchmark data.
+- Updated `script.js` to dynamically load participants and benchmarks.
+- Added unique participant IDs for individual and batch selection.
+- Preserved report preview and PDF generation functionality.
+- Consolidated `script-dynamic.js` into `script.js`.
+- Tested and pushed changes to GitHub.
+
+## Developer Handover Notes
+
+- `frontend/js/api.js` – Participant and benchmark data services.
+- `frontend/js/script.js` – Frontend interactions, selections and PDF generation.
+- `frontend/index.html` – Report interface; loads `api.js` before `script.js`.
+- `mock-participants.xlsx` – Reference sample participant data.
+
+**Pending integration:** Replace sample data with real Gravity Forms data, connect evaluation scores and benchmarks, and integrate final report generation.
+
+## Recent Development Updates 18/10/26
+
+- Merged `feature-reportGraphs` into `feature/individual-report-frontend`.
+- Added `pdfGraphIntegration.js` to manage graph images in generated PDF reports.
+- Integrated four existing graphs: Insight Initial, Insight Delayed, Self-Awareness Comparison and Influence Comparison.
+- Updated `index.html` to load `pdfGraphIntegration.js`.
+- Updated `script.js` to include graph images in individual and batch PDF generation.
+- Fixed PDF formatting issues caused by the report preview being compressed during export.
+- Preserved existing participant selection, evaluation-point selection, benchmark selection and report preview functionality.
+- Tested PDF generation using the integrated graph images.
+
+The integrated graphs currently use sample data. Final scoring calculations and dynamic graph generation remain dependent on backend integration.
+
+## Developer Handover Notes – Additional Files
+
+- `frontend/js/pdfGraphIntegration.js` – Loads graph images and adds them to generated PDF reports.
+- `report-graphs/output/` – Contains the four sample graph images used in PDF generation.
