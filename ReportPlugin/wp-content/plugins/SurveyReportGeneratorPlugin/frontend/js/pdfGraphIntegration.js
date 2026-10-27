@@ -35,7 +35,8 @@ const PDFGraphIntegration = {
 
 
     getGraphList(evaluations) {
-        const basePath = "../report-graphs/output/";
+        const basePath = "../../../../report-graphs/output/";
+
 
         const graphs = [
             {
