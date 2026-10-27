@@ -281,6 +281,41 @@
                 </section>
 
 
+                
+                <!-- Client requested report type selection -->
+                <section class="field" id="report-type-section">
+
+                    <label>Report Type</label>
+
+                    <div class="report-mode-options">
+
+                        <label class="radio-option">
+                            <input
+                                type="radio"
+                                name="report-type"
+                                value="initial"
+                                checked
+                            >
+                            <span>Initial Report</span>
+                        </label>
+
+                        <label class="radio-option">
+                            <input
+                                type="radio"
+                                name="report-type"
+                                value="final"
+                            >
+                            <span>Final Report</span>
+                        </label>
+
+                    </div>
+
+                    <p class="field-help" id="report-type-help">
+                        Initial Report shows leadership strengths,
+                        development opportunities and optional benchmarks.
+                    </p>
+
+                </section>
 
                 <section class="field">
 
@@ -485,16 +520,21 @@
 
 
                 <div class="button-row">
+                <button
+                    type="button"
+                    id="generate-report-button"
+                >
+                    Generate Report
+                </button>
 
-                    <button
-                        type="button"
-                        id="generate-report-button"
-                    >
-                        Generate Report
-                    </button>
-
-                </div>
-
+                <button
+                    type="button"
+                    id="download-pdf-button"
+                    hidden
+                >
+                    Download PDF
+                </button>
+            </div>
 
                 <div
                     id="report-message"
@@ -851,7 +891,7 @@
 
     </main>
 
-
+    <script src="js/pdfGraphIntegration.js"></script>
     <script src="js/api.js"></script>
      <script src="js/script.js"></script>
 
