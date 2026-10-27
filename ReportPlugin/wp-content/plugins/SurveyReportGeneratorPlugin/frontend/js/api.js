@@ -10,7 +10,7 @@ const ParticipantAPI = (() => {
 
     // Retrieve participant records.
     async function getParticipants() {
-        const endpoint = "/5-2/?query=participants"
+        const endpoint = "/5-2?query=participants"
         
         const response = await fetch(endpoint);
 
