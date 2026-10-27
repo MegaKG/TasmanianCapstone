@@ -1,4 +1,3 @@
-
 /*
  * Participant Data Service
  * Temporary fixture until the Gravity Forms
@@ -7,18 +6,25 @@
 
 const ParticipantAPI = (() => {
 
-
     // Retrieve participant records.
+    // async function getParticipants() {
+    //     const endpoint = "/5-2/?query=participants";
+
+    //     const response = await fetch(endpoint);
+
+    //     if (!response.ok) {
+    //         throw new Error(`HTTP ${response.status}`);
+    //     }
+
+    //     return await response.json();
+    // }
+
     async function getParticipants() {
-        const endpoint = "/5-2/?query=participants"
-        
-        const response = await fetch(endpoint);
-
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status}`);
-        }
-
-        return await response.json();
+        return [
+            { id: "1", name: "Test Participant 1" },
+            { id: "2", name: "Test Participant 2" },
+            { id: "3", name: "Test Participant 3" }
+        ];
     }
 
     // Expose functions to script.js.
@@ -28,7 +34,14 @@ const ParticipantAPI = (() => {
 
 })();
 
+
+/*
+ * Benchmark Data Service
+ * Temporary mock benchmarks.
+ */
+
 const BenchmarkAPI = (() => {
+
     const mockBenchmarks = [
         {
             id: "all-participants",
@@ -53,5 +66,13 @@ const BenchmarkAPI = (() => {
         }));
     }
 
-    return { getBenchmarks };
+    return {
+        getBenchmarks
+    };
+
 })();
+
+
+// Make APIs accessible to other frontend scripts.
+window.ParticipantAPI = ParticipantAPI;
+window.BenchmarkAPI = BenchmarkAPI;
