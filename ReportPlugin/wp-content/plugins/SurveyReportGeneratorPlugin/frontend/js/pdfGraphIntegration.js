@@ -128,4 +128,3 @@ const PDFGraphIntegration = {
         }
     }
 };
-s

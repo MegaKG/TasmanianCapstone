@@ -596,6 +596,200 @@ reportModeInputs.forEach(
 );
 
 
+function updateReportPageContent() {
+    const isFinal = getReportType() === "final";
+
+    const heading = document.querySelector(
+        ".profile-heading h2"
+    );
+
+    const introHeading = document.querySelector(
+        ".profile-introduction h3"
+    );
+
+    const introParagraphs = document.querySelectorAll(
+        ".profile-introduction p"
+    );
+
+    if (heading) {
+        heading.textContent = isFinal
+            ? "Your Leadership Development"
+            : "Your Initial Leadership Profile";
+    }
+
+    if (introHeading) {
+        introHeading.textContent = isFinal
+            ? "Your leadership journey"
+            : "Understanding your starting point";
+    }
+
+    if (introParagraphs[0]) {
+        introParagraphs[0].textContent = isFinal
+            ? "This report compares your leadership capabilities across Initial, Post-program and Delayed evaluations, highlighting growth and sustained development in Insight, Influence and Impact."
+            : "This report presents your starting leadership capabilities across Insight, Influence and Impact, helping you recognise strengths and identify development opportunities.";
+    }
+
+    if (introParagraphs[1]) {
+        introParagraphs[1].textContent = isFinal
+            ? "The comparison helps you reflect on improvements made during the program and how those improvements have been maintained over time."
+            : "Your initial results can be compared with selected benchmarks to provide additional context for your leadership development.";
+    }
+
+    // Demonstration scores only — not participant results.
+    const demoScores = [
+        { initial: 68, post: 72, delayed: 75 },
+        { initial: 64, post: 76, delayed: 78 },
+        { initial: 74, post: 82, delayed: 84 }
+    ];
+
+    const cards = document.querySelectorAll(
+        ".leadership-summary .summary-card"
+    );
+
+    cards.forEach(function (card, index) {
+        const scores = demoScores[index];
+        if (!scores) return;
+
+        const scoreRow = card.querySelector(
+            ".summary-score-row"
+        );
+
+        const scoreChange = card.querySelector(
+            ".summary-score-change"
+        );
+
+        if (scoreRow) {
+            scoreRow.innerHTML = isFinal
+                ? `<span class="summary-score">${scores.initial}</span>
+                   <span class="summary-arrow">→</span>
+                   <span class="summary-score">${scores.post}</span>
+                   <span class="summary-arrow">→</span>
+                   <span class="summary-score">${scores.delayed}</span>`
+                : `<span class="summary-score">${scores.initial}</span>`;
+        }
+
+        if (scoreChange) {
+            scoreChange.style.display = isFinal ? "" : "none";
+
+            if (isFinal) {
+                scoreChange.textContent =
+                    "+" + (scores.delayed - scores.initial);
+            }
+        }
+    });
+
+    // Clearly identify sample data in the PDF.
+    let demoNotice = document.getElementById(
+        "report-demo-notice"
+    );
+
+    if (!demoNotice) {
+        demoNotice = document.createElement("p");
+        demoNotice.id = "report-demo-notice";
+        demoNotice.style.fontSize = "11px";
+        demoNotice.style.color = "#a13b3b";
+        demoNotice.style.marginTop = "8px";
+
+        document.querySelector(
+            ".profile-introduction"
+        )?.appendChild(demoNotice);
+    }
+
+    demoNotice.textContent =
+        "DEMONSTRATION DATA — Scores are illustrative, not actual participant results.";
+}
+
+
+/* Client requested Initial and Final report types */
+
+const reportTypeInputs =
+    document.querySelectorAll('input[name="report-type"]');
+
+function getReportType() {
+    return document.querySelector(
+        'input[name="report-type"]:checked'
+    )?.value || "initial";
+}
+
+function updateReportType() {
+    const type = getReportType();
+    const isFinal = type === "final";
+
+    // Automatically select the correct evaluation points.
+    const requiredEvaluations = isFinal
+        ? ["Initial", "Final", "Delayed"]
+        : ["Initial"];
+
+    evaluationBoxes.forEach(function (checkbox) {
+        checkbox.checked =
+            requiredEvaluations.includes(checkbox.value);
+
+        checkbox.disabled = true;
+    });
+
+    updateEvaluation();
+
+    // Update the evaluation help message.
+    if (evaluationDisclaimer) {
+        evaluationDisclaimer.textContent = isFinal
+            ? "Comparing Initial, Post-program and Delayed evaluations."
+            : "Showing the Initial evaluation results.";
+    }
+
+    // Final Reports must not contain benchmarks.
+    benchmarkBoxes.forEach(function (checkbox) {
+        if (isFinal) {
+            checkbox.checked = checkbox.value === "None";
+        }
+
+        checkbox.disabled = isFinal;
+    });
+
+    updateBenchmarks();
+
+    const benchmarkField =
+        benchmarkBoxes[0]?.closest(".field");
+
+    if (benchmarkField) {
+        benchmarkField.hidden = isFinal;
+    }
+
+    // Hide benchmark results when none are selected.
+    const showBenchmark = !isFinal &&
+        getBenchmarks().length > 0;
+
+    document.querySelectorAll(".summary-benchmark")
+        .forEach(function (element) {
+            element.hidden = !showBenchmark;
+        });
+
+    if (previewBenchmarks) {
+        previewBenchmarks.hidden = isFinal;
+    }
+
+    // Update report heading.
+    if (previewReportType) {
+        previewReportType.textContent = isFinal
+            ? "Final Leadership Report"
+            : "Initial Leadership Report";
+    }
+
+    const help = document.getElementById("report-type-help");
+
+    if (help) {
+        help.textContent = isFinal
+            ? "Compare leadership development across three evaluation points."
+            : "View initial strengths, development opportunities and optional benchmarks.";
+    }
+    updateReportPageContent();
+}
+
+reportTypeInputs.forEach(function (input) {
+    input.addEventListener("change", updateReportType);
+});
+
+
+
 // Show controls for the currently selected report mode.
 
 function updateReportMode() {
@@ -1264,8 +1458,70 @@ function updateBenchmarks() {
 
 }
 
+let currentPDFPreviewURL = null;
+
+function prepareReportCapture() {
+    const htmlPreview = document.querySelector(
+        ".preview-page-container"
+    );
+
+    if (htmlPreview) {
+        htmlPreview.style.display = "";
+    }
+
+    const pdfFrame = document.getElementById(
+        "pdf-report-preview-frame"
+    );
+
+    if (pdfFrame) {
+        pdfFrame.style.display = "none";
+    }
+}
+
+function showPDFPreview(pdf) {
+    const htmlPreview = document.querySelector(
+        ".preview-page-container"
+    );
+
+    if (!htmlPreview) {
+        throw new Error("Report preview container not found.");
+    }
+
+    let pdfFrame = document.getElementById(
+        "pdf-report-preview-frame"
+    );
+
+    if (!pdfFrame) {
+        pdfFrame = document.createElement("iframe");
+        pdfFrame.id = "pdf-report-preview-frame";
+        pdfFrame.title = "Generated PDF Report Preview";
+        pdfFrame.style.width = "100%";
+        pdfFrame.style.height = "700px";
+        pdfFrame.style.border = "none";
+
+        htmlPreview.insertAdjacentElement(
+            "afterend",
+            pdfFrame
+        );
+    }
+
+    const pdfBlob = pdf.output("blob");
+    const newURL = URL.createObjectURL(pdfBlob);
+
+    pdfFrame.src = newURL;
+    pdfFrame.style.display = "block";
+    htmlPreview.style.display = "none";
+
+    if (currentPDFPreviewURL) {
+        URL.revokeObjectURL(currentPDFPreviewURL);
+    }
+
+    currentPDFPreviewURL = newURL;
+}
+
 // Capture the report for PDF without changing the visible preview.
 async function captureReportForPDF() {
+     prepareReportCapture();
     if (!reportPage) {
         throw new Error("Report preview element not found.");
     }
@@ -1276,6 +1532,7 @@ async function captureReportForPDF() {
         scale: 2,
         backgroundColor: "#ffffff",
         useCORS: true,
+        allowTaint: false,
         windowWidth: Math.max(1200, window.innerWidth),
         scrollX: 0,
         scrollY: -window.scrollY,
@@ -1287,6 +1544,9 @@ async function captureReportForPDF() {
             if (!clonedReport) {
                 return;
             }
+            
+
+
 
             // Apply changes only to the cloned report.
             clonedReport.style.width = captureWidth + "px";
@@ -1349,10 +1609,7 @@ generateButton.addEventListener(
             return;
         }
 
-        if (
-            evaluations.length > 2
-        ) {
-
+       if (evaluations.length > (getReportType() === "final" ? 3 : 1)) {
             showMessage(
                 "Please select a maximum of two evaluation points.",
                 "error"
@@ -1527,6 +1784,7 @@ generateButton.addEventListener(
                         pdf,
                         evaluations
                     );
+                    
                     pdf.save(
                         `${safeName}-Individual-Participant-Report-Prototype.pdf`
                     );
@@ -1713,9 +1971,16 @@ generateButton.addEventListener(
                 pdf,
                 evaluations
             );
-            pdf.save(
-                `${safeName}-Individual-Participant-Report-Prototype.pdf`
-            );
+            // Show the generated PDF in the preview
+            showPDFPreview(pdf);
+            // Store the generated PDF for downloading later.
+            window.currentGeneratedPDF = pdf;
+            window.currentGeneratedPDFName =
+                `${safeName}-Individual-Participant-Report-Prototype.pdf`;
+            
+            // Show the download button
+            document.getElementById("download-pdf-button").hidden = false;
+        
 
             if (
                 evaluations.length === 1
@@ -1823,6 +2088,18 @@ updateEvaluation();
 
 updateBenchmarks();
 
+updateReportType();
+
 loadParticipants();
 
 loadBenchmarks();
+
+
+document.getElementById("download-pdf-button")
+    .addEventListener("click", function () {
+        if (window.currentGeneratedPDF) {
+            window.currentGeneratedPDF.save(
+                window.currentGeneratedPDFName
+            );
+        }
+    });

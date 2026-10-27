@@ -60,6 +60,11 @@ function report_handle_form_submission() {
         ? array_map('sanitize_text_field', (array) $_POST['benchmarks'])
         : [];
 
+    // Excel file
+    $excel_file = isset($_POST['excel_file'])
+        ? sanitize_text_field($_POST['excel_file'])
+        : '';
+
     /*
     * Variables available:
     * $report_mode          string

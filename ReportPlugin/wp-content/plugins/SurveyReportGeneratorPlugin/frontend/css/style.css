@@ -1128,3 +1128,43 @@ body.square-ui .participant-inline-editor {
 .field.database-source-placeholder {
     display: none !important;
 }
+
+
+/* Generate Report and Download PDF buttons */
+.button-row {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+#generate-report-button,
+#download-pdf-button {
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    min-height: 42px;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 12px;
+    background-color: #393185;
+    color: white;
+    font: inherit;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+}
+
+#download-pdf-button {
+    background-color: #59539a;
+}
+
+#generate-report-button:hover,
+#download-pdf-button:hover {
+    opacity: 0.9;
+}
+
+/* Keep the download button hidden until a PDF exists */
+#download-pdf-button[hidden] {
+    display: none;
+}
