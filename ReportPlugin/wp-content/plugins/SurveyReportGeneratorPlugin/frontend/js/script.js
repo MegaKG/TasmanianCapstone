@@ -1265,6 +1265,153 @@ function updateBenchmarks() {
 }
 
 
+/**
+ * Add dynamically generated Chart.js graphs to the PDF.
+ * Keeps the existing HTML report as the first page.
+ */
+async function appendDynamicGraphsToPDF(pdf, participantId, evaluations) {
+
+    if (!window.DynamicGraphs) {
+        throw new Error(
+            "DynamicGraphs is not loaded. Check index.html."
+        );
+    }
+
+    if (!window.ParticipantAPI) {
+        throw new Error(
+            "ParticipantAPI is not loaded. Check index.html."
+        );
+    }
+
+    if (String(participantId).startsWith("excel-")) {
+        throw new Error(
+            "Excel-only participants do not have backend evaluation scores. " +
+            "Select a participant from the Python backend."
+        );
+    }
+
+    // Fetch participant scores and generate four graphs.
+    const result =
+        await DynamicGraphs.generateParticipantGraphs(
+            participantId
+        );
+
+    const graphs = result.graphs;
+
+    let selectedGraphs = [];
+
+    // One evaluation point: only include the relevant graph.
+    if (evaluations.length === 1) {
+
+        const label =
+            String(evaluations[0]).toLowerCase();
+
+        const isDelayed =
+            /delayed|second|post|follow[ -]?up|\b2\b/.test(label);
+
+        if (isDelayed) {
+            selectedGraphs = [{
+                title: "Delayed Leadership Evaluation",
+                image: graphs.delayed
+            }];
+        } else {
+            selectedGraphs = [{
+                title: "Initial Leadership Evaluation",
+                image: graphs.initial
+            }];
+        }
+
+    } else {
+
+        // Two evaluation points: include all four graphs.
+        selectedGraphs = [
+            {
+                title: "Initial Leadership Evaluation",
+                image: graphs.initial
+            },
+            {
+                title: "Delayed Leadership Evaluation",
+                image: graphs.delayed
+            },
+            {
+                title: "Leadership Development Comparison",
+                image: graphs.comparison
+            },
+            {
+                title: "Leadership Capability Profile",
+                image: graphs.radar
+            }
+        ];
+    }
+
+    // Insert every graph on its own PDF page.
+    for (const graph of selectedGraphs) {
+
+        const pageWidth =
+            pdf.internal.pageSize.getWidth();
+
+        const pageHeight =
+            pdf.internal.pageSize.getHeight();
+
+        const margin = 15;
+        const imageTop = 35;
+        const bottomMargin = 25;
+
+        const properties =
+            pdf.getImageProperties(graph.image);
+
+        const scale = Math.min(
+            (pageWidth - 2 * margin) / properties.width,
+            (pageHeight - imageTop - bottomMargin) /
+            properties.height
+        );
+
+        const imageWidth =
+            properties.width * scale;
+
+        const imageHeight =
+            properties.height * scale;
+
+        const imageX =
+            (pageWidth - imageWidth) / 2;
+
+        pdf.addPage();
+
+        pdf.setTextColor(0, 0, 0);
+        pdf.setFontSize(16);
+
+        pdf.text(
+            graph.title,
+            margin,
+            20
+        );
+
+        pdf.addImage(
+            graph.image,
+            "PNG",
+            imageX,
+            imageTop,
+            imageWidth,
+            imageHeight
+        );
+
+        pdf.setFontSize(9);
+        pdf.setTextColor(180, 50, 50);
+
+        pdf.text(
+            "DEMONSTRATION DATA - Not actual participant results",
+            margin,
+            pageHeight - 12
+        );
+
+        pdf.setTextColor(0, 0, 0);
+    }
+
+    return result;
+}
+
+
+
 generateButton.addEventListener(
     "click",
     async function () {
@@ -1492,6 +1639,13 @@ generateButton.addEventListener(
                         ||
                         `participant-${i + 1}`;
 
+
+                    await appendDynamicGraphsToPDF(
+                        pdf,
+                        participantId,
+                        evaluations
+                    );
+
                     pdf.save(
                         `${safeName}-Individual-Participant-Report-Prototype.pdf`
                     );
@@ -1681,6 +1835,13 @@ generateButton.addEventListener(
                     )
                 ||
                 "participant";
+
+            await appendDynamicGraphsToPDF(
+                pdf,
+                selectedParticipantId,
+                evaluations
+            );
+
 
             pdf.save(
                 `${safeName}-Individual-Participant-Report-Prototype.pdf`
