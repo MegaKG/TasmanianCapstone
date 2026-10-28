@@ -188,6 +188,9 @@ function get_form_entries( $form_id, $filters = [] ) {
         $query_args['search'] = wp_json_encode( $search );
     }
 
+    error_log(print_r("Filters are:", true));
+    error_log(print_r($filters, true));
+
     $method = 'GET';
 
     $oauth = new OAuth_Request(
@@ -301,6 +304,9 @@ function get_form_entries( $form_id, $filters = [] ) {
             'answers'      => $answers,
         ];
     }
+
+    error_log(print_r("Got: ", true));
+    error_log(print_r($results, true));
 
     return $results;
 }

@@ -19,6 +19,26 @@ function getLikertValue($answers, $question, $likert_mapping) {
     return $answer !== null ? ($likert_mapping[$answer] ?? null) : null;
 }
 
+// Function to do weighted average
+function calculateWeightedAverage($values, $weights) {
+    $sum = 0;
+    $sumWeights = 0;
+
+    foreach ($values as $index => $value) {
+        // Skip null values
+        if ($value === null) {
+            continue;
+        }
+        $sum += $value * $weights[$index];
+        $sumWeights += $weights[$index];
+    }
+    // Handle division by zero
+    if ($sumWeights === 0) {
+        return 1;
+    }
+    return $sum / $sumWeights;
+}
+
 function calculateInsightValuesFor($answers) {
     global $likert_mapping;
 
@@ -35,6 +55,17 @@ function calculateInsightValuesFor($answers) {
     $InsightStrategicForesight2 = getLikertValue($answers,'What percentage of your current objectives stretch on for more than two years into the future?',$likert_mapping);
     $InsightBalancedProcessing = getLikertValue($answers,'I am very uncomfortable objectively considering my limitations and shortcomings.',$likert_mapping);
     $InsightBalancedProcessing2 = getLikertValue($answers,'I often deny the validity of any compliments that I receive.',$likert_mapping);
+
+    // The return array
+    return [
+        'Self Awareness' => calculateWeightedAverage([$InsightSelfAwareValue,$InsightSelfAwareValue2], [0.5, 0.5]),
+        'Social Awareness' => calculateWeightedAverage([$InsightSocialAwareValue,$InsightSocialAwareValue2], [0.5, 0.5]),
+        'Clarity Of Purpose' => $InsightClarityOfPurpose,
+        'Situational Awareness' => calculateWeightedAverage([$InsightSituationalAwareValue,$InsightSituationalAwareValue2], [0.5, 0.5]),
+        'Self Compassion' => calculateWeightedAverage([$InsightSelfCompassion,$InsightSelfCompassion2], [0.5, 0.5]),
+        'Strategic Foresight' => calculateWeightedAverage([$InsightStrategicForesight,$InsightStrategicForesight2], [0.5, 0.5]),
+        'Balanced Processing' => calculateWeightedAverage([$InsightBalancedProcessing,$InsightBalancedProcessing2], [0.5, 0.5]),
+    ];
 }
 
 function calculateInfluenceValuesFor($answers) {
@@ -56,6 +87,16 @@ function calculateInfluenceValuesFor($answers) {
     $InfluenceCreativeDecisionMaking2 = getLikertValue($answers,'I frequently imagine new ways of doing and being.',$likert_mapping);
     $InfluenceCreativeDecisionMaking3 = getLikertValue($answers,'It is easy to hold multiple possible futures at the same time.',$likert_mapping);
     $InfluenceCreativeDecisionMaking4 = getLikertValue($answers,'When I need to make a decision, I usually deploy an existing model first.',$likert_mapping);
+
+    // The return array
+    return [
+        'Tolerance For Ambiguity' => calculateWeightedAverage([$InfluenceToleranceAmbiguity,$InfluenceToleranceAmbiguity2,$InfluenceToleranceAmbiguity3], [0.3, 0.3, 0.4]),
+        'Tolerance For Complexity' => calculateWeightedAverage([$InfluenceToleranceComplexity,$InfluenceToleranceComplexity2,$InfluenceToleranceComplexity3], [0.3, 0.3, 0.4]),
+        'Capacity For Informal Influence' => calculateWeightedAverage([$InfluenceInformalInfluence,$InfluenceInformalInfluence2], [0.5, 0.5]),
+        'Capacity To Establish Networks' => calculateWeightedAverage([$InfluenceEstablishNetworks,$InfluenceEstablishNetworks2], [0.5, 0.5]),
+        'Capacity For Collaboration' => calculateWeightedAverage([$InfluenceCollaboration,$InfluenceCollaboration2], [0.5, 0.5]),
+        'Creative Decision Making' => calculateWeightedAverage([$InfluenceCreativeDecisionMaking,$InfluenceCreativeDecisionMaking2,$InfluenceCreativeDecisionMaking3,$InfluenceCreativeDecisionMaking4], [0.25, 0.25, 0.25, 0.25])
+    ];
 }
 
 
@@ -71,5 +112,13 @@ function calculateImpactValuesFor($answers) {
     $ImpactPlaceAttachment = getLikertValue($answers,'Tasmania will always be my home, even if I move away.',$likert_mapping);
     $ImpactPlaceAttachment2 = getLikertValue($answers,'I have limited attachment to the city I live in.',$likert_mapping);
     $ImpactPlaceAttachment3 = getLikertValue($answers,'At work, I prioritise on finishing only my own tasks.',$likert_mapping);
+
+    // The return array
+    return [
+        'Extra Role Behaviours' => $ImpactRoleBehaviour,
+        'Capacity To Foster Belonging' => calculateWeightedAverage([$ImpactFosterBelonging,$ImpactFosterBelonging2], [0.5, 0.5]),
+        'Capacity To Foster Intrinsic Motivation' => calculateWeightedAverage([$ImpactFosterMotivation,$ImpactFosterMotivation2,$ImpactFosterMotivation3], [0.3, 0.3, 0.4]),
+        'Place Attachment' => calculateWeightedAverage([$ImpactPlaceAttachment,$ImpactPlaceAttachment2,$ImpactPlaceAttachment3], [0.3, 0.3, 0.4])
+    ];
 }
 ?>
