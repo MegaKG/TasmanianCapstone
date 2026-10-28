@@ -3,7 +3,7 @@ const API_CONFIG = {
 
     // "mock" = Python Flask backend
     // "wordpress" = real WordPress backend
-    mode: "mock",
+    mode: "wordpress",
 
     // Python backend address.
     mockBaseUrl: "http://localhost:8881",

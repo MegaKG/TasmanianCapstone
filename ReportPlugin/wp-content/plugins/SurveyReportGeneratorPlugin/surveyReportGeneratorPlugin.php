@@ -52,7 +52,7 @@ add_action('template_redirect', function () {
 });
 
 // Test Function
-add_shortcode('env_test', function () {
+/*add_shortcode('env_test', function () {
     // Test the query
     error_log(print_r(get_gravity_forms_list(), true));
     // Test query of question map for form id 43
@@ -67,7 +67,7 @@ add_shortcode('env_test', function () {
     //error_log(print_r(get_3month_response_for('Jody', 'Maurer'), true));
 
     return '<br>Key: ' . $consumer_key . '<br>Secret: ' . $consumer_secret . '<br>Base URL: ' . $base_url;
-});
+});*/
 
 
 
