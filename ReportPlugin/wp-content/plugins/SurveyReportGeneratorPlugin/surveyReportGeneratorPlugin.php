@@ -28,6 +28,7 @@ register_activation_hook(
 );
 
 // Add redirect for static page http://localhost:8881/survey-report
+// Otherwise url is http://localhost:8881/wp-content/plugins/SurveyReportGeneratorPlugin/frontend/index.html
 add_action('init', function () {
     add_rewrite_rule(
         '^survey-report/?$',

@@ -34,6 +34,7 @@ function report_handle_query() {
 
         // Get the Insight values for a given person and report
         if ($query_type === 'data') {
+            error_log(print_r("Query Handler was called query is ".$_GET['query']." report is ".$_GET['report']." Name is ".$_GET['first_name']." ".$_GET['last_name'], true));
             $answer = [];
             if ($_GET['report'] === 'initial') {
                 // Get Preprogram
@@ -47,7 +48,7 @@ function report_handle_query() {
 
             if ($_GET['report'] === 'delayed') {
                 // Get Delayed
-                $answer = get_delayed_response_for($_GET['first_name'], $_GET['last_name']);
+                $answer = get_3month_response_for($_GET['first_name'], $_GET['last_name']);
             }
 
             // prepare array to return

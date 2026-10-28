@@ -25,10 +25,17 @@ function calculateWeightedAverage($values, $weights) {
     $sumWeights = 0;
 
     foreach ($values as $index => $value) {
+        // Skip null values
+        if ($value === null) {
+            continue;
+        }
         $sum += $value * $weights[$index];
         $sumWeights += $weights[$index];
     }
-
+    // Handle division by zero
+    if ($sumWeights === 0) {
+        return 1;
+    }
     return $sum / $sumWeights;
 }
 
