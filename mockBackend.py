@@ -1,19 +1,40 @@
+
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import random
 import os
 
-# Frontend location
-FRONTEND_DIR = os.path.abspath(
-    "ReportPlugin/wp-content/plugins/SurveyReportGeneratorPlugin/frontend"
+
+# ============================================================
+# FRONTEND CONFIGURATION
+# ============================================================
+
+# Directory containing this Python file.
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Absolute path to the frontend.
+FRONTEND_DIR = os.path.join(
+    BASE_DIR,
+    "ReportPlugin",
+    "wp-content",
+    "plugins",
+    "SurveyReportGeneratorPlugin",
+    "frontend"
 )
 
-app = Flask(__name__)
+# Configure Flask to serve frontend files.
+app = Flask(
+    __name__,
+    static_folder=FRONTEND_DIR,
+    static_url_path=""
+)
+
 CORS(app)
 
-# =============================================================================
-# Mock participant data
-# =============================================================================
+
+# ============================================================
+# MOCK PARTICIPANT DATA
+# ============================================================
 
 PARTICIPANTS = [
     {
@@ -38,13 +59,18 @@ PARTICIPANTS = [
 
 
 def get_participants():
+    """Return participants in Gravity Forms-compatible format."""
+
     results = []
 
     for entry in PARTICIPANTS:
         results.append({
             "id": int(entry["id"]),
             "form_id": int(entry["form_id"]),
-            "name": f"{entry['first_name']} {entry['last_name']}".strip(),
+            "name": (
+                f"{entry['first_name']} "
+                f"{entry['last_name']}"
+            ).strip(),
             "first_name": entry["first_name"],
             "last_name": entry["last_name"]
         })
@@ -52,11 +78,25 @@ def get_participants():
     return results
 
 
+# ============================================================
+# MOCK EVALUATION DATA
+# ============================================================
+
 def score():
+    """Generate a random score between 1.0 and 5.0."""
     return round(random.uniform(1.0, 5.0), 1)
 
 
 def get_mock_scores(first_name, last_name, report):
+    """
+    Generate mock leadership evaluation scores.
+
+    Each API request generates fresh random values.
+
+    The report parameter identifies the evaluation
+    being requested (for example, initial or delayed).
+    """
+
     return {
         "Insight": {
             "Self Awareness": score(),
@@ -67,6 +107,7 @@ def get_mock_scores(first_name, last_name, report):
             "Strategic Foresight": score(),
             "Balanced Processing": score()
         },
+
         "Influence": {
             "Tolerance For Ambiguity": score(),
             "Tolerance For Complexity": score(),
@@ -75,6 +116,7 @@ def get_mock_scores(first_name, last_name, report):
             "Capacity For Collaboration": score(),
             "Creative Decision Making": score()
         },
+
         "Impact": {
             "Extra Role Behaviours": score(),
             "Capacity To Foster Belonging": score(),
@@ -84,39 +126,44 @@ def get_mock_scores(first_name, last_name, report):
     }
 
 
-# =============================================================================
-# Frontend Routes
-# =============================================================================
-
 @app.route("/")
 def index():
-    return send_from_directory(FRONTEND_DIR, "index.html")
+    """Serve the frontend index.html."""
+
+    return send_from_directory(
+        FRONTEND_DIR,
+        "index.html"
+    )
 
 
 @app.route("/<path:path>")
 def static_files(path):
-    file_path = os.path.join(FRONTEND_DIR, path)
+    """Serve frontend CSS, JS, images, and other assets."""
 
-    if os.path.exists(file_path):
-        return send_from_directory(FRONTEND_DIR, path)
+    file_path = os.path.join(
+        FRONTEND_DIR,
+        path
+    )
+
+    if os.path.isfile(file_path):
+        return send_from_directory(
+            FRONTEND_DIR,
+            path
+        )
 
     return "Not Found", 404
 
-
-# =============================================================================
-# WordPress-compatible path
-# =============================================================================
-
 @app.route(
-    "/wp-content/plugins/SurveyReportGeneratorPlugin/frontend/<path:path>"
+    "/wp-content/plugins/"
+    "SurveyReportGeneratorPlugin/frontend/<path:path>"
 )
 def wordpress_static(path):
-    return send_from_directory(FRONTEND_DIR, path)
+    """Support frontend asset requests using WordPress paths."""
 
-
-# =============================================================================
-# API
-# =============================================================================
+    return send_from_directory(
+        FRONTEND_DIR,
+        path
+    )
 
 @app.route("/5-2", methods=["GET"])
 def report_handle_query():
@@ -129,7 +176,9 @@ def report_handle_query():
         }), 400
 
     if query_type == "participants":
-        return jsonify(get_participants())
+        return jsonify(
+            get_participants()
+        )
 
     if query_type == "data":
 
@@ -142,6 +191,29 @@ def report_handle_query():
                 "error": "Missing report parameter"
             }), 400
 
+        if not first_name or not last_name:
+            return jsonify({
+                "error": (
+                    "Missing first_name or last_name parameter"
+                )
+            }), 400
+
+        # Confirm the participant exists.
+        participant = next(
+            (
+                p for p in PARTICIPANTS
+                if p["first_name"].lower() == first_name.lower()
+                and p["last_name"].lower() == last_name.lower()
+            ),
+            None
+        )
+
+        if participant is None:
+            return jsonify({
+                "error": "Participant not found"
+            }), 404
+
+        # Generate fresh mock evaluation scores.
         return jsonify(
             get_mock_scores(
                 first_name,
@@ -154,25 +226,66 @@ def report_handle_query():
         "error": f"Unknown query type '{query_type}'"
     }), 400
 
-
-# =============================================================================
-# Main
-# =============================================================================
-
 if __name__ == "__main__":
 
-    print(f"Serving frontend from:")
+    print("")
+    print("=" * 60)
+    print("TASMANIAN LEADERS - MOCK GRAVITY FORMS BACKEND")
+    print("=" * 60)
+
+    print("")
+    print("Frontend directory:")
     print(FRONTEND_DIR)
+
+    print("")
+    print("Frontend directory exists:")
+    print(os.path.isdir(FRONTEND_DIR))
+
+    print("")
+    print("JavaScript file checks:")
+
+    for filename in [
+        "api.js",
+        "dynamicGraphs.js",
+        "pdfGraphIntegration.js",
+        "script.js"
+    ]:
+        file_path = os.path.join(
+            FRONTEND_DIR,
+            "js",
+            filename
+        )
+
+        print(
+            f"  {filename}: "
+            f"{'FOUND' if os.path.isfile(file_path) else 'MISSING'}"
+        )
+
     print("")
     print("Frontend:")
     print("  http://localhost:8881/")
+
     print("")
     print("Participants API:")
-    print("  http://localhost:8881/5-2?query=participants")
+    print(
+        "  http://localhost:8881/"
+        "5-2?query=participants"
+    )
+
+    print("")
+    print("Example evaluation API:")
+    print(
+        "  http://localhost:8881/"
+        "5-2?query=data&report=initial"
+        "&first_name=Jody&last_name=Maurer"
+    )
+
+    print("")
+    print("=" * 60)
     print("")
 
     app.run(
-        host="0.0.0.0",
+        host="127.0.0.1",
         port=8881,
         debug=True
     )
