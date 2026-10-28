@@ -250,7 +250,7 @@ const BenchmarkAPI = (() => {
         getBenchmarks
     };
 
-})();íí
+})();
 
 
 // Make APIs available to other frontend scripts.

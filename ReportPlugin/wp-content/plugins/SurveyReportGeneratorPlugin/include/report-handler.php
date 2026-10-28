@@ -35,12 +35,12 @@ function report_handle_query() {
         // Get the Insight values for a given person and report
         if ($query_type === 'data') {
             $answer = [];
-            if ($_GET['report'] === 'preprogram') {
+            if ($_GET['report'] === 'initial') {
                 // Get Preprogram
                 $answer = get_preprogram_response_for($_GET['first_name'], $_GET['last_name']);
             }
 
-            if ($_GET['report'] === 'completion') {
+            if ($_GET['report'] === 'final') {
                 // Get Completion
                 $answer = get_completion_response_for($_GET['first_name'], $_GET['last_name']);
             }
