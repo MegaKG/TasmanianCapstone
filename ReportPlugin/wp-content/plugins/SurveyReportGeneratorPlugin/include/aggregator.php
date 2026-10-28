@@ -68,6 +68,7 @@ function calculateInsightValuesFor($answers) {
     ];
 }
 
+
 function calculateInfluenceValuesFor($answers) {
     global $likert_mapping;
 
